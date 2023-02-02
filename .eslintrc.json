@@ -15,7 +15,9 @@
     "build/**/*"
   ],
   "rules": {
+    "consistent-return": "off",
     "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
     "react/function-component-definition": [
       2,
       {

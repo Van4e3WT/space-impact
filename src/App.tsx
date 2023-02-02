@@ -1,6 +1,8 @@
+import { Game } from './components/Game/Game';
+
 const App = () => (
   <div className="App">
-    Application starts here
+    <Game />
   </div>
 );
 

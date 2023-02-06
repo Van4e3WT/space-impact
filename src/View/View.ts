@@ -46,6 +46,24 @@ export default class View {
     this.renderer.domElement.remove();
   };
 
+  public considerGeometry = <T extends THREE.BufferGeometry>(geometry: T): T => {
+    this.geometries.push(geometry);
+
+    return geometry;
+  };
+
+  public considerMaterial = <T extends THREE.Material>(material: T): T => {
+    this.materials.push(material);
+
+    return material;
+  };
+
+  public considerTexture = <T extends THREE.Texture>(texture: T): T => {
+    this.textures.push(texture);
+
+    return texture;
+  };
+
   private initRenderer = () => {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.domElement.classList.add('game__canvas');
@@ -77,11 +95,9 @@ export default class View {
   };
 
   private addSceneItems = () => {
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    this.geometries.push(geometry);
+    const geometry = this.considerGeometry(new THREE.BoxGeometry(1, 1, 1));
 
-    const material = new THREE.MeshPhongMaterial({ color: '#44AA88' });
-    this.materials.push(material);
+    const material = this.considerMaterial(new THREE.MeshPhongMaterial({ color: '#44AA88' }));
 
     const cube = new THREE.Mesh(geometry, material);
     this.sceneItems.cube = cube;

@@ -1,1 +1,1 @@
-export type SceneItems = Partial<Record<'cube', THREE.Mesh>>;
+export type SceneItems = Partial<Record<string, THREE.Object3D>>;

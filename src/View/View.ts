@@ -29,13 +29,19 @@ export default class View {
     this.render();
   }
 
+  public addToScene = (node: THREE.Object3D, name?: string) => {
+    this.scene.add(node);
+
+    if (name) this.sceneItems[name] = node;
+  };
+
   public destroy = () => {
     const dispose = <T extends { dispose: () => void }>(element: T) => {
       element.dispose();
     };
 
     Object.values(this.sceneItems).forEach((sceneItem) => {
-      this.scene.remove(sceneItem);
+      if (sceneItem) this.scene.remove(sceneItem);
     });
 
     this.geometries.forEach(dispose);
@@ -71,14 +77,11 @@ export default class View {
   };
 
   private initScene = () => {
-    const light = new THREE.DirectionalLight('#FFF9BE', 1);
-    light.position.set(-1, 2, 4);
-
     this.scene = new THREE.Scene();
 
+    const light = new THREE.DirectionalLight('#FFF9BE', 1);
+    light.position.set(-1, 2, 4);
     this.scene.add(light);
-
-    this.addSceneItems();
   };
 
   private initCamera = () => {
@@ -92,17 +95,6 @@ export default class View {
     );
 
     this.camera.position.z = 2;
-  };
-
-  private addSceneItems = () => {
-    const geometry = this.considerGeometry(new THREE.BoxGeometry(1, 1, 1));
-
-    const material = this.considerMaterial(new THREE.MeshPhongMaterial({ color: '#44AA88' }));
-
-    const cube = new THREE.Mesh(geometry, material);
-    this.sceneItems.cube = cube;
-
-    this.scene.add(cube);
   };
 
   private render = () => {

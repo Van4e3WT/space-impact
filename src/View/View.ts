@@ -109,10 +109,11 @@ export default class View {
   };
 
   private resizeRendererToDisplaySize = (renderer: THREE.WebGLRenderer) => {
+    const pixelRatio = window.devicePixelRatio;
     const canvas = renderer.domElement;
 
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
+    const width = canvas.clientWidth * pixelRatio;
+    const height = canvas.clientHeight * pixelRatio;
 
     const needResize = canvas.width !== width || canvas.height !== height;
 

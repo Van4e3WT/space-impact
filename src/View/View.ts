@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import { SceneItems } from './View.types';
 
@@ -79,7 +80,7 @@ export default class View {
   private initScene = () => {
     this.scene = new THREE.Scene();
 
-    const light = new THREE.DirectionalLight('#FFF9BE', 1);
+    const light = new THREE.PointLight('#FFF9BE', 1);
     light.position.set(-1, 2, 4);
     this.scene.add(light);
   };
@@ -94,6 +95,8 @@ export default class View {
       1000,
     );
 
+    const controls = new OrbitControls(this.camera, canvas);
+    controls.target.set(0, 0, 0);
     this.camera.position.z = 2;
   };
 

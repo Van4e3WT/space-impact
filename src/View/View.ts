@@ -80,9 +80,12 @@ export default class View {
   private initScene = () => {
     this.scene = new THREE.Scene();
 
-    const light = new THREE.PointLight('#FFF9BE', 1);
-    light.position.set(-1, 2, 4);
-    this.scene.add(light);
+    const ambientLight = new THREE.AmbientLight('#FFF9BE', 0.1);
+    this.scene.add(ambientLight);
+
+    const pointLight = new THREE.PointLight('#FFF9BE', 1);
+    pointLight.position.set(-1, 2, 4);
+    this.scene.add(pointLight);
   };
 
   private initCamera = () => {

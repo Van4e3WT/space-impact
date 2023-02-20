@@ -1,9 +1,13 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+import NPC from './NPC/NPC';
+import ResoursesController from './ResoursesController';
 import { SceneItems } from './View.types';
 
-export default class View {
+const UNMOUNT_ENEMY_RANGE = -5;
+
+export default class View extends ResoursesController {
   private parent: HTMLElement;
 
   private renderer!: THREE.WebGLRenderer;
@@ -12,22 +16,23 @@ export default class View {
 
   private camera!: THREE.PerspectiveCamera;
 
-  private geometries: Array<THREE.BufferGeometry> = [];
+  private npc!: NPC;
 
-  private materials: Array<THREE.Material> = [];
-
-  private textures: Array<THREE.Texture> = [];
+  private time: number;
 
   private sceneItems: SceneItems = {};
 
   constructor(root: HTMLElement) {
+    super();
     this.parent = root;
+    this.time = 0;
 
     this.initRenderer();
     this.initScene();
     this.initCamera();
+    this.initNPC();
 
-    this.render();
+    requestAnimationFrame(this.render);
   }
 
   public addToScene = (node: THREE.Object3D, name?: string) => {
@@ -37,38 +42,16 @@ export default class View {
   };
 
   public destroy = () => {
-    const dispose = <T extends { dispose: () => void }>(element: T) => {
-      element.dispose();
-    };
-
     Object.values(this.sceneItems).forEach((sceneItem) => {
       if (sceneItem) this.scene.remove(sceneItem);
     });
 
-    this.geometries.forEach(dispose);
-    this.materials.forEach(dispose);
-    this.textures.forEach(dispose);
+    this.npc.destroy();
+
+    super.destroy();
 
     this.renderer.dispose();
     this.renderer.domElement.remove();
-  };
-
-  public considerGeometry = <T extends THREE.BufferGeometry>(geometry: T): T => {
-    this.geometries.push(geometry);
-
-    return geometry;
-  };
-
-  public considerMaterial = <T extends THREE.Material>(material: T): T => {
-    this.materials.push(material);
-
-    return material;
-  };
-
-  public considerTexture = <T extends THREE.Texture>(texture: T): T => {
-    this.textures.push(texture);
-
-    return texture;
   };
 
   private initRenderer = () => {
@@ -98,26 +81,42 @@ export default class View {
       1000,
     );
 
+    // TODO: remove OribtControls on prod
     const controls = new OrbitControls(this.camera, canvas);
+    this.camera.position.z = -2;
+    this.camera.position.y = 2;
+    this.camera.lookAt(0, 0, 0);
     controls.target.set(0, 0, 0);
-    this.camera.position.z = 2;
   };
 
-  private render = () => {
+  private initNPC = () => {
+    this.npc = new NPC(this.scene);
+
+    // TODO: add speed and generation coefficient
+    setInterval(() => this.npc.createEnemy(this.time), 2500);
+  };
+
+  private render = (time: number) => {
     if (this.resizeRendererToDisplaySize(this.renderer)) {
       const canvas = this.renderer.domElement;
       this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
       this.camera.updateProjectionMatrix();
     }
 
+    this.time = time * 0.001;
+
+    this.npc.enemies.forEach((enemy, index) => {
+      const { mesh, creationTime } = enemy;
+
+      if (mesh.position.z > UNMOUNT_ENEMY_RANGE) {
+        mesh.position.z -= (this.time - creationTime) * 0.05;
+      } else {
+        this.npc.enemies.filter((_, idx) => index !== idx);
+        this.scene.remove(enemy.mesh);
+      }
+    });
+
     requestAnimationFrame(this.render);
-
-    const { cube } = this.sceneItems;
-
-    if (cube) {
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-    }
 
     this.renderer.render(this.scene, this.camera);
   };

@@ -93,6 +93,7 @@ export default class View extends ResoursesController {
     this.npc = new NPC(this.scene);
 
     // TODO: add speed and generation coefficient
+    // TODO: test performance with minimal delay
     setInterval(() => this.npc.createEnemy(this.time), 2500);
   };
 

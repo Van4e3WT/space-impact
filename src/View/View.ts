@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 import NPC from './NPC/NPC';
 import ResoursesController from './ResoursesController';
@@ -18,6 +19,8 @@ export default class View extends ResoursesController {
 
   private npc!: NPC;
 
+  private stats: Stats;
+
   private time: number;
 
   private sceneItems: SceneItems = {};
@@ -26,11 +29,14 @@ export default class View extends ResoursesController {
     super();
     this.parent = root;
     this.time = 0;
+    this.stats = Stats();
 
     this.initRenderer();
     this.initScene();
     this.initCamera();
     this.initNPC();
+
+    document.body.appendChild(this.stats.dom);
 
     requestAnimationFrame(this.render);
   }
@@ -52,6 +58,7 @@ export default class View extends ResoursesController {
 
     this.renderer.dispose();
     this.renderer.domElement.remove();
+    this.stats.dom.remove();
   };
 
   private initRenderer = () => {
@@ -118,6 +125,8 @@ export default class View extends ResoursesController {
     });
 
     requestAnimationFrame(this.render);
+
+    this.stats.update();
 
     this.renderer.render(this.scene, this.camera);
   };

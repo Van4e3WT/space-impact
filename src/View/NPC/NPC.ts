@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import { getRandom } from '../../utils/getRandom';
 import ResoursesController from '../ResoursesController';
-import { Enemy } from './NPC.types';
+import { MeshWithTime } from '../View.types';
 
 const SPAWN_RANGE = 100;
 
@@ -13,7 +13,7 @@ export default class Enemies extends ResoursesController {
 
   private enemyMaterial: THREE.Material;
 
-  public enemies: Array<Enemy> = [];
+  public enemies: Array<MeshWithTime> = [];
 
   constructor(scene: THREE.Scene) {
     super();

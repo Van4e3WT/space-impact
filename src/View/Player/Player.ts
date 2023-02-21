@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import ResoursesController from '../ResoursesController';
+import { MeshWithTime } from '../View.types';
 import Controls from './Controls/Controls';
 
 export default class Player extends ResoursesController {
@@ -10,9 +11,18 @@ export default class Player extends ResoursesController {
 
   private controls!: Controls;
 
+  private shotGeometry: THREE.BufferGeometry;
+
+  private shotMaterial: THREE.Material;
+
+  public shots: Array<MeshWithTime> = [];
+
   constructor(scene: THREE.Scene) {
     super();
     this.scene = scene;
+
+    this.shotGeometry = this.considerGeometry(new THREE.BoxGeometry(0.3, 0.3, 0.6));
+    this.shotMaterial = this.considerMaterial(new THREE.MeshBasicMaterial({ color: '#FF4540' }));
 
     this.init();
   }
@@ -21,6 +31,19 @@ export default class Player extends ResoursesController {
     this.controls.remove();
     this.scene.remove(this.player);
     super.destroy();
+  };
+
+  public shoot = (time: number) => {
+    const shot = new THREE.Mesh(this.shotGeometry, this.shotMaterial);
+
+    shot.position.x = this.player.position.x;
+
+    this.shots.push({
+      creationTime: time,
+      mesh: shot,
+    });
+
+    this.scene.add(shot);
   };
 
   private init = () => {

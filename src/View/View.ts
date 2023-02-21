@@ -7,6 +7,7 @@ import Player from './Player/Player';
 import ResoursesController from './ResoursesController';
 
 const UNMOUNT_ENEMY_RANGE = -5;
+const UNMOUNT_SHOT_RANGE = 75;
 
 export default class View extends ResoursesController {
   private parent: HTMLElement;
@@ -23,7 +24,7 @@ export default class View extends ResoursesController {
 
   private time: number;
 
-  private player: Player;
+  private player!: Player;
 
   constructor(root: HTMLElement) {
     super();
@@ -35,8 +36,7 @@ export default class View extends ResoursesController {
     this.initScene();
     this.initCamera();
     this.initNPC();
-
-    this.player = new Player(this.scene);
+    this.initPlayer();
 
     document.body.appendChild(this.stats.dom);
 
@@ -56,6 +56,7 @@ export default class View extends ResoursesController {
     this.renderer.dispose();
     this.renderer.domElement.remove();
     this.stats.dom.remove();
+    // TODO: remove shot listener
   };
 
   private initRenderer = () => {
@@ -101,6 +102,18 @@ export default class View extends ResoursesController {
     setInterval(() => this.npc.createEnemy(this.time), 2500);
   };
 
+  private initPlayer = () => {
+    // TODO: replace this draft implementation
+    const handlePlayerShoot = (e: KeyboardEvent) => {
+      if (e.key !== ' ') return;
+      this.player.shoot(this.time);
+    };
+
+    this.player = new Player(this.scene);
+
+    document.addEventListener('keydown', handlePlayerShoot);
+  };
+
   private render = (time: number) => {
     if (this.resizeRendererToDisplaySize(this.renderer)) {
       const canvas = this.renderer.domElement;
@@ -110,6 +123,8 @@ export default class View extends ResoursesController {
 
     this.time = time * 0.001;
 
+    // TODO: move enemies and shots updates into separated methods
+
     this.npc.enemies.forEach((enemy, index) => {
       const { mesh, creationTime } = enemy;
 
@@ -118,6 +133,17 @@ export default class View extends ResoursesController {
       } else {
         this.npc.enemies = this.npc.enemies.filter((_, idx) => index !== idx);
         this.scene.remove(enemy.mesh);
+      }
+    });
+
+    this.player.shots.forEach((shot, index) => {
+      const { mesh, creationTime } = shot;
+
+      if (mesh.position.z < UNMOUNT_SHOT_RANGE) {
+        mesh.position.z += (this.time - creationTime) * 0.1;
+      } else {
+        this.player.shots = this.player.shots.filter((_, idx) => index !== idx);
+        this.scene.remove(shot.mesh);
       }
     });
 

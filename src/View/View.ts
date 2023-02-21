@@ -100,7 +100,6 @@ export default class View extends ResoursesController {
     this.npc = new NPC(this.scene);
 
     // TODO: add speed and generation coefficient
-    // TODO: test performance with minimal delay
     setInterval(() => this.npc.createEnemy(this.time), 2500);
   };
 
@@ -119,7 +118,7 @@ export default class View extends ResoursesController {
       if (mesh.position.z > UNMOUNT_ENEMY_RANGE) {
         mesh.position.z -= (this.time - creationTime) * 0.05;
       } else {
-        this.npc.enemies.filter((_, idx) => index !== idx);
+        this.npc.enemies = this.npc.enemies.filter((_, idx) => index !== idx);
         this.scene.remove(enemy.mesh);
       }
     });

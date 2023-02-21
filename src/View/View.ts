@@ -3,8 +3,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
 import NPC from './NPC/NPC';
+import Player from './Player/Player';
 import ResoursesController from './ResoursesController';
-import { SceneItems } from './View.types';
 
 const UNMOUNT_ENEMY_RANGE = -5;
 
@@ -23,7 +23,7 @@ export default class View extends ResoursesController {
 
   private time: number;
 
-  private sceneItems: SceneItems = {};
+  private player: Player;
 
   constructor(root: HTMLElement) {
     super();
@@ -36,23 +36,20 @@ export default class View extends ResoursesController {
     this.initCamera();
     this.initNPC();
 
+    this.player = new Player(this.scene);
+
     document.body.appendChild(this.stats.dom);
 
     requestAnimationFrame(this.render);
   }
 
-  public addToScene = (node: THREE.Object3D, name?: string) => {
+  public addToScene = (node: THREE.Object3D) => {
     this.scene.add(node);
-
-    if (name) this.sceneItems[name] = node;
   };
 
   public destroy = () => {
-    Object.values(this.sceneItems).forEach((sceneItem) => {
-      if (sceneItem) this.scene.remove(sceneItem);
-    });
-
     this.npc.destroy();
+    this.player.destroy();
 
     super.destroy();
 
@@ -100,6 +97,7 @@ export default class View extends ResoursesController {
     this.npc = new NPC(this.scene);
 
     // TODO: add speed and generation coefficient
+    // TODO: replace interval on something inside render-method
     setInterval(() => this.npc.createEnemy(this.time), 2500);
   };
 

@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 import View from '../../View/View';
-import Controls from './Controls';
 import './Game.scss';
 
 export const Game = () => {
@@ -21,17 +20,7 @@ export const Game = () => {
     view.addToScene(grid);
     gui.add(grid, 'visible').name('scene');
 
-    const geometry = view.considerGeometry(new THREE.BoxGeometry(1, 1, 1));
-    const material = view.considerMaterial(new THREE.MeshPhongMaterial({ color: '#44AA88' }));
-    const cube = new THREE.Mesh(geometry, material);
-
-    view.addToScene(cube, 'cube');
-
-    const controls = new Controls(cube);
-    controls.init();
-
     return () => {
-      controls.remove();
       gui.destroy();
       view.destroy();
     };

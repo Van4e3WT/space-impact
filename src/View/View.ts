@@ -135,7 +135,7 @@ export default class View extends ResoursesController {
       const { mesh, creationTime } = shot;
 
       if (mesh.position.z < UNMOUNT_SHOT_RANGE) {
-        mesh.position.z += (this.time - creationTime) * 0.2;
+        mesh.position.z = (this.time - creationTime) * 50;
       } else {
         this.player.shots = this.player.shots.filter((_, idx) => index !== idx);
         this.scene.remove(shot.mesh);

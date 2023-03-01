@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
+import { ExtensionalMesh } from '../ExtensionalMesh';
 import ResoursesController from '../ResoursesController';
-import { MeshWithTime } from '../View.types';
 import Controls from './Controls/Controls';
 
 export default class Player extends ResoursesController {
@@ -15,7 +15,7 @@ export default class Player extends ResoursesController {
 
   private shotMaterial: THREE.Material;
 
-  public shots: Array<MeshWithTime> = [];
+  public shots: Array<ExtensionalMesh> = [];
 
   constructor(scene: THREE.Scene) {
     super();
@@ -34,16 +34,13 @@ export default class Player extends ResoursesController {
   };
 
   public shoot = (time: number) => {
-    const shot = new THREE.Mesh(this.shotGeometry, this.shotMaterial);
+    const shot = new ExtensionalMesh(time, this.shotGeometry, this.shotMaterial);
 
-    shot.position.x = this.player.position.x;
+    shot.mesh.position.x = this.player.position.x;
 
-    this.shots.push({
-      creationTime: time,
-      mesh: shot,
-    });
+    this.shots.push(shot);
 
-    this.scene.add(shot);
+    this.scene.add(shot.mesh);
   };
 
   private init = () => {

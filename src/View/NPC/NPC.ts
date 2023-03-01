@@ -1,19 +1,19 @@
 import * as THREE from 'three';
 
 import { getRandom } from '../../utils/getRandom';
+import { ExtensionalMesh } from '../ExtensionalMesh';
 import ResoursesController from '../ResoursesController';
-import { MeshWithTime } from '../View.types';
 
 const SPAWN_RANGE = 100;
 
-export default class Enemies extends ResoursesController {
+export default class NPC extends ResoursesController {
   private scene: THREE.Scene;
 
   private enemyGeometry: THREE.BufferGeometry;
 
   private enemyMaterial: THREE.Material;
 
-  public enemies: Array<MeshWithTime> = [];
+  public enemies: Array<ExtensionalMesh> = [];
 
   constructor(scene: THREE.Scene) {
     super();
@@ -23,16 +23,14 @@ export default class Enemies extends ResoursesController {
   }
 
   public createEnemy = (time: number) => {
-    const enemy = new THREE.Mesh(this.enemyGeometry, this.enemyMaterial);
+    const enemy = new ExtensionalMesh(time, this.enemyGeometry, this.enemyMaterial);
 
-    enemy.position.z = SPAWN_RANGE;
-    enemy.position.x = Math.round(getRandom(-5, 5));
+    enemy.mesh.geometry.computeBoundingBox();
+    enemy.mesh.position.z = SPAWN_RANGE;
+    enemy.mesh.position.x = Math.round(getRandom(-5, 5));
 
-    this.enemies.push({
-      creationTime: time,
-      mesh: enemy,
-    });
+    this.enemies.push(enemy);
 
-    this.scene.add(enemy);
+    this.scene.add(enemy.mesh);
   };
 }

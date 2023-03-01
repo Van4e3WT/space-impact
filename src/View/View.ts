@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import { throttleKey } from './helpers/throttleKey';
 
+import { ExtensionalMesh } from './ExtensionalMesh';
+import { throttleKey } from './helpers/throttleKey';
 import NPC from './NPC/NPC';
 import Player from './Player/Player';
 import ResoursesController from './ResoursesController';
@@ -97,10 +98,6 @@ export default class View extends ResoursesController {
 
   private initNPC = () => {
     this.npc = new NPC(this.scene);
-
-    // TODO: add speed and generation coefficient
-    // TODO: replace interval on something inside render-method
-    setInterval(() => this.npc.createEnemy(this.time), 2500);
   };
 
   private initPlayer = () => {
@@ -118,6 +115,11 @@ export default class View extends ResoursesController {
 
     this.time = time * 0.001;
 
+    // TODO: make something better (mb respawn timer)
+    if (Math.floor(time) % 2 === 0) {
+      this.npc.createEnemy(this.time);
+    }
+
     // TODO: move enemies and shots updates into separated methods
 
     this.player.shots.forEach((shot, index) => {
@@ -128,12 +130,12 @@ export default class View extends ResoursesController {
 
         shot.update();
       } else {
-        this.player.shots = this.player.shots.filter((_, idx) => index !== idx);
-        this.scene.remove(shot.mesh);
+        // TODO: stress test comparator (E2E)
+        this.player.shots = this.player.shots.filter(this.makeComparator(index));
       }
     });
 
-    this.npc.enemies.forEach((enemy, index) => {
+    this.npc.enemies.forEach((enemy, enemyIndex) => {
       const { mesh: enemyMesh, box: enemyBox, creationTime: enemyTime } = enemy;
 
       if (enemyMesh.position.z > UNMOUNT_ENEMY_RANGE) {
@@ -142,26 +144,22 @@ export default class View extends ResoursesController {
         enemy.update();
 
         // TODO: optimize algorithm
-        this.player.shots.forEach(({ mesh: shotMesh, box: shotBox }, shotIndex) => {
+        this.player.shots.forEach(({ box: shotBox }, shotIndex) => {
           if (enemyBox.intersectsBox(shotBox)) {
-            this.npc.enemies = this.npc.enemies.filter((_, idx) => index !== idx);
-            this.player.shots = this.player.shots.filter((_, idx) => shotIndex !== idx);
-
-            this.scene.remove(enemyMesh);
-            this.scene.remove(shotMesh);
+            this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
+            this.player.shots = this.player.shots.filter(this.makeComparator(shotIndex));
           }
         });
       } else {
-        this.npc.enemies = this.npc.enemies.filter((_, idx) => index !== idx);
-        this.scene.remove(enemyMesh);
+        this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
       }
     });
-
-    requestAnimationFrame(this.render);
 
     this.stats.update();
 
     this.renderer.render(this.scene, this.camera);
+
+    requestAnimationFrame(this.render);
   };
 
   private resizeRendererToDisplaySize = (renderer: THREE.WebGLRenderer) => {
@@ -180,5 +178,15 @@ export default class View extends ResoursesController {
     return needResize;
   };
 
+  // TODO: Bind throttleKey to player shoot
   private handlePlayerShoot = throttleKey(' ', () => this.player.shoot(this.time), 500);
+
+  private makeComparator = (removableIndex: number) => (
+    extensionalMesh: ExtensionalMesh,
+    index: number,
+  ) => {
+    const isVisible = index !== removableIndex;
+    if (!isVisible) this.scene.remove(extensionalMesh.mesh);
+    return isVisible;
+  };
 }

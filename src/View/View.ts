@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
+import { throttleKey } from './helpers/throttleKey';
 
 import NPC from './NPC/NPC';
 import Player from './Player/Player';
@@ -50,13 +51,13 @@ export default class View extends ResoursesController {
   public destroy = () => {
     this.npc.destroy();
     this.player.destroy();
+    document.removeEventListener('keydown', this.handlePlayerShoot);
 
     super.destroy();
 
     this.renderer.dispose();
     this.renderer.domElement.remove();
     this.stats.dom.remove();
-    // TODO: remove shot listener
   };
 
   private initRenderer = () => {
@@ -103,15 +104,9 @@ export default class View extends ResoursesController {
   };
 
   private initPlayer = () => {
-    // TODO: replace this draft implementation
-    const handlePlayerShoot = (e: KeyboardEvent) => {
-      if (e.key !== ' ') return;
-      this.player.shoot(this.time);
-    };
-
     this.player = new Player(this.scene);
 
-    document.addEventListener('keydown', handlePlayerShoot);
+    document.addEventListener('keydown', this.handlePlayerShoot);
   };
 
   private render = (time: number) => {
@@ -140,7 +135,7 @@ export default class View extends ResoursesController {
       const { mesh, creationTime } = shot;
 
       if (mesh.position.z < UNMOUNT_SHOT_RANGE) {
-        mesh.position.z += (this.time - creationTime) * 0.1;
+        mesh.position.z += (this.time - creationTime) * 0.2;
       } else {
         this.player.shots = this.player.shots.filter((_, idx) => index !== idx);
         this.scene.remove(shot.mesh);
@@ -169,4 +164,6 @@ export default class View extends ResoursesController {
 
     return needResize;
   };
+
+  private handlePlayerShoot = throttleKey(' ', () => this.player.shoot(this.time), 500);
 }

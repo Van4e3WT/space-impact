@@ -120,25 +120,40 @@ export default class View extends ResoursesController {
 
     // TODO: move enemies and shots updates into separated methods
 
-    this.npc.enemies.forEach((enemy, index) => {
-      const { mesh, creationTime } = enemy;
-
-      if (mesh.position.z > UNMOUNT_ENEMY_RANGE) {
-        mesh.position.z -= (this.time - creationTime) * 0.05;
-      } else {
-        this.npc.enemies = this.npc.enemies.filter((_, idx) => index !== idx);
-        this.scene.remove(enemy.mesh);
-      }
-    });
-
     this.player.shots.forEach((shot, index) => {
       const { mesh, creationTime } = shot;
 
       if (mesh.position.z < UNMOUNT_SHOT_RANGE) {
         mesh.position.z = (this.time - creationTime) * 50;
+
+        shot.update();
       } else {
         this.player.shots = this.player.shots.filter((_, idx) => index !== idx);
         this.scene.remove(shot.mesh);
+      }
+    });
+
+    this.npc.enemies.forEach((enemy, index) => {
+      const { mesh: enemyMesh, box: enemyBox, creationTime: enemyTime } = enemy;
+
+      if (enemyMesh.position.z > UNMOUNT_ENEMY_RANGE) {
+        enemyMesh.position.z -= (this.time - enemyTime) * 0.05;
+
+        enemy.update();
+
+        // TODO: optimize algorithm
+        this.player.shots.forEach(({ mesh: shotMesh, box: shotBox }, shotIndex) => {
+          if (enemyBox.intersectsBox(shotBox)) {
+            this.npc.enemies = this.npc.enemies.filter((_, idx) => index !== idx);
+            this.player.shots = this.player.shots.filter((_, idx) => shotIndex !== idx);
+
+            this.scene.remove(enemyMesh);
+            this.scene.remove(shotMesh);
+          }
+        });
+      } else {
+        this.npc.enemies = this.npc.enemies.filter((_, idx) => index !== idx);
+        this.scene.remove(enemyMesh);
       }
     });
 

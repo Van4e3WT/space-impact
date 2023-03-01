@@ -12,10 +12,13 @@ export class ExtensionalMesh {
     this.mesh = new THREE.Mesh(...args);
     this.mesh.geometry.computeBoundingBox();
 
-    this.initBox();
+    this.update();
   }
 
-  private initBox = () => {
+  public update = () => {
+    this.mesh.updateMatrix();
+    this.mesh.updateMatrixWorld(true);
+
     if (!this.mesh.geometry.boundingBox) return;
 
     this.box.copy(this.mesh.geometry.boundingBox);

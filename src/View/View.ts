@@ -115,10 +115,7 @@ export default class View extends ResoursesController {
 
     this.time = time * 0.001;
 
-    // TODO: make something better (mb respawn timer)
-    if (Math.floor(time) % 2 === 0) {
-      this.npc.createEnemy(this.time);
-    }
+    this.npc.createEnemy(this.time);
 
     // TODO: move enemies and shots updates into separated methods
 

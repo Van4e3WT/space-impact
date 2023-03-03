@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+import { fieldBounds } from '../../constants';
 import { getRandom } from '../../utils/getRandom';
 import { ExtensionalMesh } from '../ExtensionalMesh';
 import ResoursesController from '../ResoursesController';
@@ -40,7 +41,7 @@ export default class NPC extends ResoursesController {
 
     enemy.mesh.geometry.computeBoundingBox();
     enemy.mesh.position.z = SPAWN_RANGE;
-    enemy.mesh.position.x = Math.round(getRandom(-4, 4));
+    enemy.mesh.position.x = Math.round(getRandom(fieldBounds.min, fieldBounds.max));
 
     this.enemies.push(enemy);
 

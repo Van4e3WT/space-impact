@@ -1,9 +1,9 @@
+import { fieldBounds } from '../../../constants';
 import { ExtensionalMesh } from '../../ExtensionalMesh';
 
 const MOVE_STEP = 0.075;
 const KEY_REFRESH_LATENCY = 10;
 
-// TODO: create move bounds
 export default class Controls {
   private item: ExtensionalMesh;
 
@@ -19,11 +19,15 @@ export default class Controls {
 
   public init = () => {
     const handleMoveLeft = () => {
+      if (this.item.mesh.position.x > fieldBounds.max) return;
+
       this.item.mesh.position.x += MOVE_STEP;
       this.item.update();
     };
 
     const handleMoveRight = () => {
+      if (this.item.mesh.position.x < fieldBounds.min) return;
+
       this.item.mesh.position.x -= MOVE_STEP;
       this.item.update();
     };

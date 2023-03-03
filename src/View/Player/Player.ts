@@ -7,7 +7,7 @@ import Controls from './Controls/Controls';
 export default class Player extends ResoursesController {
   private scene: THREE.Scene;
 
-  private player!: THREE.Mesh;
+  private player!: ExtensionalMesh;
 
   private controls!: Controls;
 
@@ -27,16 +27,20 @@ export default class Player extends ResoursesController {
     this.init();
   }
 
+  get box() {
+    return this.player.box;
+  }
+
   public destroy = () => {
     this.controls.remove();
-    this.scene.remove(this.player);
+    this.scene.remove(this.player.mesh);
     super.destroy();
   };
 
   public shoot = (time: number) => {
     const shot = new ExtensionalMesh(time, this.shotGeometry, this.shotMaterial);
 
-    shot.mesh.position.x = this.player.position.x;
+    shot.mesh.position.x = this.player.mesh.position.x;
 
     this.shots.push(shot);
 
@@ -47,9 +51,9 @@ export default class Player extends ResoursesController {
     const geometry = this.considerGeometry(new THREE.BoxGeometry(1, 1, 1));
     const material = this.considerMaterial(new THREE.MeshPhongMaterial({ color: '#44AA88' }));
 
-    this.player = new THREE.Mesh(geometry, material);
+    this.player = new ExtensionalMesh(0, geometry, material);
 
-    this.scene.add(this.player);
+    this.scene.add(this.player.mesh);
 
     this.controls = new Controls(this.player);
     this.controls.init();

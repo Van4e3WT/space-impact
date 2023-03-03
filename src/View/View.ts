@@ -9,9 +9,11 @@ import Player from './Player/Player';
 import ResoursesController from './ResoursesController';
 
 const UNMOUNT_ENEMY_RANGE = -5;
-const UNMOUNT_SHOT_RANGE = 75;
+const UNMOUNT_SHOT_RANGE = 100;
 
 export default class View extends ResoursesController {
+  private requestId: number;
+
   private parent: HTMLElement;
 
   private renderer!: THREE.WebGLRenderer;
@@ -42,7 +44,7 @@ export default class View extends ResoursesController {
 
     document.body.appendChild(this.stats.dom);
 
-    requestAnimationFrame(this.render);
+    this.requestId = requestAnimationFrame(this.render);
   }
 
   public addToScene = (node: THREE.Object3D) => {
@@ -50,6 +52,8 @@ export default class View extends ResoursesController {
   };
 
   public destroy = () => {
+    cancelAnimationFrame(this.requestId);
+
     this.npc.destroy();
     this.player.destroy();
     document.removeEventListener('keydown', this.handlePlayerShoot);
@@ -140,6 +144,10 @@ export default class View extends ResoursesController {
 
         enemy.update();
 
+        if (enemyBox.intersectsBox(this.player.box)) {
+          this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
+        }
+
         // TODO: optimize algorithm
         this.player.shots.forEach(({ box: shotBox }, shotIndex) => {
           if (enemyBox.intersectsBox(shotBox)) {
@@ -156,7 +164,7 @@ export default class View extends ResoursesController {
 
     this.renderer.render(this.scene, this.camera);
 
-    requestAnimationFrame(this.render);
+    this.requestId = requestAnimationFrame(this.render);
   };
 
   private resizeRendererToDisplaySize = (renderer: THREE.WebGLRenderer) => {

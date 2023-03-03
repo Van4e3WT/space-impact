@@ -1,8 +1,11 @@
+import { ExtensionalMesh } from '../../ExtensionalMesh';
+
 const MOVE_STEP = 0.075;
 const KEY_REFRESH_LATENCY = 10;
 
+// TODO: create move bounds
 export default class Controls {
-  private item: THREE.Mesh;
+  private item: ExtensionalMesh;
 
   private keyIsDown: { [key: string]: boolean } = {};
 
@@ -10,17 +13,19 @@ export default class Controls {
 
   private keyUpHandlers: Array<(e: KeyboardEvent) => void> = [];
 
-  constructor(item: THREE.Mesh) {
+  constructor(item: ExtensionalMesh) {
     this.item = item;
   }
 
   public init = () => {
     const handleMoveLeft = () => {
-      this.item.position.x += MOVE_STEP;
+      this.item.mesh.position.x += MOVE_STEP;
+      this.item.update();
     };
 
     const handleMoveRight = () => {
-      this.item.position.x -= MOVE_STEP;
+      this.item.mesh.position.x -= MOVE_STEP;
+      this.item.update();
     };
 
     this.addKeyControl('a', handleMoveLeft);

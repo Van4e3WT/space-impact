@@ -1,6 +1,6 @@
 import LilGui from 'lil-gui';
 import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { GridHelper } from 'three/src/helpers/GridHelper';
 
 import View from '../../View/View';
 import './Game.scss';
@@ -14,7 +14,7 @@ export const Game = () => {
     const gui = new LilGui();
     const view = new View(ref.current);
 
-    const grid = new THREE.GridHelper();
+    const grid = new GridHelper();
     if (!(grid.material instanceof Array)) grid.material.depthTest = false;
     grid.renderOrder = 1;
     view.addToScene(grid);

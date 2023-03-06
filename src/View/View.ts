@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
+import { store } from '../store/store';
 import { ExtensionalMesh } from './ExtensionalMesh';
 import { throttleKey } from './helpers/throttleKey';
 import NPC from './NPC/NPC';
@@ -146,6 +147,7 @@ export default class View extends ResoursesController {
 
         if (enemyBox.intersectsBox(this.player.box)) {
           this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
+          store.game.decrementLife();
         }
 
         // TODO: optimize algorithm
@@ -153,10 +155,12 @@ export default class View extends ResoursesController {
           if (enemyBox.intersectsBox(shotBox)) {
             this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
             this.player.shots = this.player.shots.filter(this.makeComparator(shotIndex));
+            store.game.incrementScore();
           }
         });
       } else {
         this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
+        // TODO: add decrement life here too
       }
     });
 

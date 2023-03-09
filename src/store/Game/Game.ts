@@ -33,7 +33,7 @@ export class Game {
   public decrementLife = () => {
     this.lives -= 1;
 
-    if (this.lives <= 0) this.gameState = GameStates.END;
+    if (this.lives < 0) this.gameState = GameStates.END;
   };
 
   public startGame = () => {

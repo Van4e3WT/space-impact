@@ -1,0 +1,23 @@
+@import '../../styles/variables.scss';
+
+.container {
+  @include container();
+
+  background-image: url('../../assets/images/menu-background.jpg');
+}
+
+.title {
+  @include title();
+
+  position: absolute;
+  top: 7%;
+  left: 7%;
+}
+
+.start-button {
+  @include button();
+
+  position: absolute;
+  right: 10%;
+  bottom: 10%;
+}

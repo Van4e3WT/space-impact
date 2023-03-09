@@ -1,0 +1,19 @@
+@import '../../styles/variables.scss';
+
+.container {
+  @include container();
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
+  gap: 50px;
+  background-image: url('../../assets/images/menu-background.jpg');
+}
+
+.title {
+  @include title();
+}
+
+.restart-button {
+  @include button();
+}

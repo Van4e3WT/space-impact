@@ -1,0 +1,46 @@
+$light-color: #d0e2ec;
+$dark-color: #30345f;
+$dark-accent-color: #593513;
+$light-accent-color: #C4C086;
+$error-color: #A00000;
+
+$primary-font: 'Magneto', serif;
+$secondary-font: 'Ubuntu Mono', Ubuntu, sans-serif;
+
+$bordered-shadow:
+  2px 2px 3px $light-accent-color,
+  -2px 2px 3px $light-accent-color,
+  2px -2px 3px $light-accent-color,
+  -2px -2px 3px $light-accent-color;
+
+@mixin container() {
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+}
+
+@mixin title() {
+  font-family: $primary-font;
+  font-size: 145px;
+  color: $dark-accent-color;
+  text-shadow: $bordered-shadow;
+}
+
+@mixin button {
+  padding: 15px 50px;
+  border: 1px solid $light-accent-color;
+  border-radius: 5px;
+  background-color: $dark-accent-color;
+  color: $light-accent-color;
+  font-size: 80px;
+  font-weight: 700;
+  font-style: italic;
+  font-family: $secondary-font;
+  letter-spacing: -4px;
+  box-shadow: $bordered-shadow;
+  text-transform: uppercase;
+  cursor: pointer;
+}

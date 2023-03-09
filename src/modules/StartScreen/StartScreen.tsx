@@ -1,6 +1,9 @@
 import { store } from '../../store/store';
-import './StartScreen.scss';
+import S from './StartScreen.module.scss';
 
 export const StartScreen = () => (
-  <button type="button" onClick={() => store.game.startGame()} className="start-button">Start</button>
+  <div className={S['container']}>
+    <h1 className={S['title']}>Space Impact</h1>
+    <button type="button" onClick={() => store.game.startGame()} className={S['start-button']}>Start</button>
+  </div>
 );

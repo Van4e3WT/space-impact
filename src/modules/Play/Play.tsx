@@ -1,19 +1,23 @@
 import { observer } from 'mobx-react-lite';
+
+import { HeartIcon } from '../../assets/icons/HeartIcon';
 import { store } from '../../store/store';
-import './Play.scss';
+import S from './Play.module.scss';
 
 export const Play: React.FC = observer(() => (
-  <div className="score">
-    <span>
+  <>
+    <span className={S['score']}>
       Score:
       {' '}
-      {store.game.playerScore}
+      <span className={S['highlight']}>{store.game.playerScore}</span>
     </span>
-    <br />
-    <span>
-      Lives:
-      {' '}
-      {store.game.playerLives}
+    <span className={S['lives']}>
+      {[...Array(store.game.playerLives)].map((_, idx) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={idx} className={S['life']}>
+          <HeartIcon />
+        </div>
+      ))}
     </span>
-  </div>
+  </>
 ));

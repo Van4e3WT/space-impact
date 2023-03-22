@@ -6,6 +6,7 @@ import ResoursesController from '../ResoursesController';
 import Controls from './Controls/Controls';
 
 const SHOT_OFFSET_Y = 0.08;
+const SPACESHIP_SCALE = 0.0625;
 
 export default class Player extends ResoursesController {
   private scene: THREE.Scene;
@@ -57,7 +58,7 @@ export default class Player extends ResoursesController {
     // TODO: resolve emissiveMap
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(`${process.env.PUBLIC_URL}/models/spaceship.gltf`, (model) => {
-      model.scene.scale.set(0.08, 0.08, 0.08);
+      model.scene.scale.set(SPACESHIP_SCALE, SPACESHIP_SCALE, SPACESHIP_SCALE);
       this.player = new ExtensionalObject(0, model.scene);
 
       this.scene.add(this.player.obj);

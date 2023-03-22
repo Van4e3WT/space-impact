@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
+import { fieldBounds } from '../constants';
+import { lineFragment } from '../shaders/lineFragment';
+import { lineVertex } from '../shaders/lineVertex';
 import { store } from '../store/store';
 import { ExtensionalObject } from './ExtensionalObject';
 import { throttleKey } from './helpers/throttleKey';
@@ -11,6 +14,7 @@ import ResoursesController from './ResoursesController';
 
 const UNMOUNT_ENEMY_RANGE = -5;
 const UNMOUNT_SHOT_RANGE = 100;
+const LINE_OFFSET = 0.5;
 
 export default class View extends ResoursesController {
   private requestId: number;
@@ -84,6 +88,39 @@ export default class View extends ResoursesController {
     const pointLight = new THREE.PointLight('#FFFFFF', 1);
     pointLight.position.set(-1, 2, 4);
     this.scene.add(pointLight);
+
+    this.initLines();
+  };
+
+  private initLines = () => {
+    const lineMaterial = this.considerMaterial(new THREE.ShaderMaterial({
+      uniforms: {
+        color: {
+          value: new THREE.Color('#c4c086'),
+        },
+        origin: {
+          value: new THREE.Vector3(),
+        },
+      },
+      vertexShader: lineVertex,
+      fragmentShader: lineFragment,
+      transparent: true,
+    }));
+
+    const lineGeometryMin = this.considerGeometry(new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(fieldBounds.min - LINE_OFFSET, 0, UNMOUNT_ENEMY_RANGE),
+      new THREE.Vector3(fieldBounds.min - LINE_OFFSET, 0, UNMOUNT_SHOT_RANGE),
+    ]));
+
+    const lineGeometryMax = this.considerGeometry(new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(fieldBounds.max + LINE_OFFSET, 0, UNMOUNT_ENEMY_RANGE),
+      new THREE.Vector3(fieldBounds.max + LINE_OFFSET, 0, UNMOUNT_SHOT_RANGE),
+    ]));
+
+    const lineMin = new THREE.Line(lineGeometryMin, lineMaterial);
+    const lineMax = new THREE.Line(lineGeometryMax, lineMaterial);
+
+    this.scene.add(lineMin, lineMax);
   };
 
   private initCamera = () => {

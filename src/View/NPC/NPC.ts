@@ -7,9 +7,9 @@ import { ExtensionalObject } from '../ExtensionalObject';
 import ResoursesController from '../ResoursesController';
 
 const SPAWN_RANGE = 100;
-const SPAWN_DELTA_LIMIT = 0.25;
+const SPEED_GROWING_EXPONENT = 5;
 const BASIC_SPAWN_DELTA = 2.5;
-const TIME_OFFSET = 4;
+const BASIC_DECREMENT_POINT = 1.5;
 const ENEMY_SCALE = 0.03125;
 
 export default class NPC extends ResoursesController {
@@ -42,8 +42,8 @@ export default class NPC extends ResoursesController {
     const enemy = new ExtensionalObject(time, this.enemyObject.clone());
 
     this.lastSpawnTime = time;
-    this.spawnDelta = (((time + TIME_OFFSET) ** -1) ** SPAWN_DELTA_LIMIT) * BASIC_SPAWN_DELTA
-      + SPAWN_DELTA_LIMIT;
+    this.spawnDelta -= ((BASIC_SPAWN_DELTA - this.spawnDelta + BASIC_DECREMENT_POINT) ** -1)
+      ** SPEED_GROWING_EXPONENT;
 
     enemy.obj.position.z = SPAWN_RANGE;
     enemy.obj.position.x = Math.round(getRandom(fieldBounds.min, fieldBounds.max));

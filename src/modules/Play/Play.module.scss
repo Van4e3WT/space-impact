@@ -15,12 +15,21 @@
   right: 30px;
   bottom: 30px;
   display: flex;
+  flex-direction: row-reverse;
   gap: 5px;
-  color: $error-color;
 }
 
 .life {
   width: 50px;
+  color: $error-color;
+
+  &--disabled {
+    color: $dark-color;
+  }
+
+  &:not(&--disabled) {
+    filter: drop-shadow(0 0 3px $light-color);
+  }
 }
 
 .highlight {

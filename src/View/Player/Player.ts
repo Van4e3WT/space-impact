@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-import { ExtensionalMesh } from '../ExtensionalMesh';
 import { ExtensionalObject } from '../ExtensionalObject';
 import ResoursesController from '../ResoursesController';
 import Controls from './Controls/Controls';
@@ -19,7 +18,7 @@ export default class Player extends ResoursesController {
 
   private shotMaterial: THREE.Material;
 
-  public shots: Array<ExtensionalMesh> = [];
+  public shots: Array<ExtensionalObject> = [];
 
   constructor(scene: THREE.Scene) {
     super();
@@ -44,14 +43,14 @@ export default class Player extends ResoursesController {
   public shoot = (time: number) => {
     if (!this.player) return;
 
-    const shot = new ExtensionalMesh(time, this.shotGeometry, this.shotMaterial);
+    const shot = new ExtensionalObject(time, new THREE.Mesh(this.shotGeometry, this.shotMaterial));
 
-    shot.mesh.position.x = this.player.obj.position.x;
-    shot.mesh.position.y = this.player.obj.position.y + SHOT_OFFSET_Y;
+    shot.obj.position.x = this.player.obj.position.x;
+    shot.obj.position.y = this.player.obj.position.y + SHOT_OFFSET_Y;
 
     this.shots.push(shot);
 
-    this.scene.add(shot.mesh);
+    this.scene.add(shot.obj);
   };
 
   private init = () => {

@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
 import { store } from '../store/store';
-import { ExtensionalMesh } from './ExtensionalMesh';
+import { ExtensionalObject } from './ExtensionalObject';
 import { throttleKey } from './helpers/throttleKey';
 import NPC from './NPC/NPC';
 import Player from './Player/Player';
@@ -128,10 +128,10 @@ export default class View extends ResoursesController {
     // TODO: move enemies and shots updates into separated methods
 
     this.player.shots.forEach((shot, index) => {
-      const { mesh, creationTime } = shot;
+      const { obj, creationTime } = shot;
 
-      if (mesh.position.z < UNMOUNT_SHOT_RANGE) {
-        mesh.position.z = (this.time - creationTime) * 50;
+      if (obj.position.z < UNMOUNT_SHOT_RANGE) {
+        obj.position.z = (this.time - creationTime) * 50;
 
         shot.update();
       } else {
@@ -141,10 +141,10 @@ export default class View extends ResoursesController {
     });
 
     this.npc.enemies.forEach((enemy, enemyIndex) => {
-      const { mesh: enemyMesh, box: enemyBox, creationTime: enemyTime } = enemy;
+      const { obj: enemyObj, box: enemyBox, creationTime: enemyTime } = enemy;
 
-      if (enemyMesh.position.z > UNMOUNT_ENEMY_RANGE) {
-        enemyMesh.position.z -= (this.time - enemyTime) * 0.05;
+      if (enemyObj.position.z > UNMOUNT_ENEMY_RANGE) {
+        enemyObj.position.z -= (this.time - enemyTime) * 0.05;
 
         enemy.update();
 
@@ -194,11 +194,11 @@ export default class View extends ResoursesController {
   private handlePlayerShoot = throttleKey(' ', () => this.player.shoot(this.time), 500);
 
   private makeComparator = (removableIndex: number) => (
-    extensionalMesh: ExtensionalMesh,
+    extensionalObject: ExtensionalObject,
     index: number,
   ) => {
     const isVisible = index !== removableIndex;
-    if (!isVisible) this.scene.remove(extensionalMesh.mesh);
+    if (!isVisible) this.scene.remove(extensionalObject.obj);
     return isVisible;
   };
 }

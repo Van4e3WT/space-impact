@@ -1,11 +1,11 @@
 import { fieldBounds } from '../../../constants';
-import { ExtensionalMesh } from '../../ExtensionalMesh';
+import { ExtensionalObject } from '../../ExtensionalObject';
 
 const MOVE_STEP = 0.075;
 const KEY_REFRESH_LATENCY = 10;
 
 export default class Controls {
-  private item: ExtensionalMesh;
+  private item: ExtensionalObject;
 
   private keyIsDown: { [key: string]: boolean } = {};
 
@@ -13,22 +13,22 @@ export default class Controls {
 
   private keyUpHandlers: Array<(e: KeyboardEvent) => void> = [];
 
-  constructor(item: ExtensionalMesh) {
+  constructor(item: ExtensionalObject) {
     this.item = item;
   }
 
   public init = () => {
     const handleMoveLeft = () => {
-      if (this.item.mesh.position.x > fieldBounds.max) return;
+      if (this.item.obj.position.x > fieldBounds.max) return;
 
-      this.item.mesh.position.x += MOVE_STEP;
+      this.item.obj.position.x += MOVE_STEP;
       this.item.update();
     };
 
     const handleMoveRight = () => {
-      if (this.item.mesh.position.x < fieldBounds.min) return;
+      if (this.item.obj.position.x < fieldBounds.min) return;
 
-      this.item.mesh.position.x -= MOVE_STEP;
+      this.item.obj.position.x -= MOVE_STEP;
       this.item.update();
     };
 

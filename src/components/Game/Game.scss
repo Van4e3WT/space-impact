@@ -1,6 +1,7 @@
 .game {
   width: 100vw;
   height: 100vh;
+  user-select: none;
 
   &__canvas {
     width: 100%;

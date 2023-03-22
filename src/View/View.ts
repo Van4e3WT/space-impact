@@ -67,7 +67,10 @@ export default class View extends ResoursesController {
   };
 
   private initRenderer = () => {
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      logarithmicDepthBuffer: true,
+    });
     this.renderer.domElement.classList.add('game__canvas');
     this.parent.appendChild(this.renderer.domElement);
   };
@@ -75,10 +78,10 @@ export default class View extends ResoursesController {
   private initScene = () => {
     this.scene = new THREE.Scene();
 
-    const ambientLight = new THREE.AmbientLight('#FFF9BE', 0.1);
+    const ambientLight = new THREE.AmbientLight('#FFFFFF', 0.3);
     this.scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight('#FFF9BE', 1);
+    const pointLight = new THREE.PointLight('#FFFFFF', 1);
     pointLight.position.set(-1, 2, 4);
     this.scene.add(pointLight);
   };
@@ -145,7 +148,7 @@ export default class View extends ResoursesController {
 
         enemy.update();
 
-        if (enemyBox.intersectsBox(this.player.box)) {
+        if (this.player.box && enemyBox.intersectsBox(this.player.box)) {
           this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
           store.game.decrementLife();
         }

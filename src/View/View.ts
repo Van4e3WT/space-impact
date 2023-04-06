@@ -11,6 +11,7 @@ import { throttleKey } from './helpers/throttleKey';
 import NPC from './NPC/NPC';
 import Player from './Player/Player';
 import ResoursesController from './ResoursesController';
+import Stars from './Stars/Stars';
 
 const UNMOUNT_ENEMY_RANGE = -5;
 const UNMOUNT_SHOT_RANGE = 100;
@@ -26,6 +27,8 @@ export default class View extends ResoursesController {
   private scene!: THREE.Scene;
 
   private camera!: THREE.PerspectiveCamera;
+
+  private stars!: Stars;
 
   private npc!: NPC;
 
@@ -44,6 +47,7 @@ export default class View extends ResoursesController {
     this.initRenderer();
     this.initScene();
     this.initCamera();
+    this.initStars();
     this.initNPC();
     this.initPlayer();
 
@@ -61,6 +65,7 @@ export default class View extends ResoursesController {
 
     this.npc.destroy();
     this.player.destroy();
+    this.stars.destroy();
     document.removeEventListener('keydown', this.handlePlayerShoot);
 
     super.destroy();
@@ -141,6 +146,10 @@ export default class View extends ResoursesController {
     controls.target.set(0, 0, 0);
   };
 
+  private initStars = () => {
+    this.stars = new Stars(this.scene);
+  };
+
   private initNPC = () => {
     this.npc = new NPC(this.scene);
   };
@@ -161,6 +170,8 @@ export default class View extends ResoursesController {
     this.time = time * 0.001;
 
     this.npc.createEnemy(this.time);
+
+    this.stars.animateStars();
 
     // TODO: move enemies and shots updates into separated methods
 

@@ -1,8 +1,11 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
-import { fieldBounds } from '../constants';
+import { fieldBounds, bloomParams } from '../constants';
 import { lineFragment } from '../shaders/lineFragment';
 import { lineVertex } from '../shaders/lineVertex';
 import { store } from '../store/store';
@@ -23,6 +26,8 @@ export default class View extends ResoursesController {
   private parent: HTMLElement;
 
   private renderer!: THREE.WebGLRenderer;
+
+  private composer!: EffectComposer;
 
   private scene!: THREE.Scene;
 
@@ -47,6 +52,7 @@ export default class View extends ResoursesController {
     this.initRenderer();
     this.initScene();
     this.initCamera();
+    this.initComposer();
     this.initStars();
     this.initNPC();
     this.initPlayer();
@@ -93,6 +99,7 @@ export default class View extends ResoursesController {
     const pointLight = new THREE.PointLight('#FFFFFF', 1);
     pointLight.position.set(-1, 2, 4);
     this.scene.add(pointLight);
+    // TODO: add equirectangular background
 
     this.initLines();
   };
@@ -138,12 +145,34 @@ export default class View extends ResoursesController {
       1000,
     );
 
+    // TODO: add some fog or increase generation distance (for elements and env)
     // TODO: remove OribtControls on prod
     const controls = new OrbitControls(this.camera, canvas);
     this.camera.position.z = -2;
     this.camera.position.y = 2;
     this.camera.lookAt(0, 0, 0);
     controls.target.set(0, 0, 0);
+  };
+
+  private initComposer = () => {
+    const renderPass = new RenderPass(this.scene, this.camera);
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(
+        this.renderer.domElement.clientWidth,
+        this.renderer.domElement.clientHeight,
+      ),
+      bloomParams.strength,
+      bloomParams.radius,
+      bloomParams.threshold,
+    );
+
+    this.composer = new EffectComposer(this.renderer);
+
+    this.composer.addPass(renderPass);
+    this.composer.addPass(bloomPass);
+
+    this.renderer.toneMapping = THREE.LinearToneMapping;
+    this.renderer.toneMappingExposure = bloomParams.exposure;
   };
 
   private initStars = () => {
@@ -161,7 +190,7 @@ export default class View extends ResoursesController {
   };
 
   private render = (time: number) => {
-    if (this.resizeRendererToDisplaySize(this.renderer)) {
+    if (this.resizeRendererToDisplaySize()) {
       const canvas = this.renderer.domElement;
       this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
       this.camera.updateProjectionMatrix();
@@ -217,14 +246,14 @@ export default class View extends ResoursesController {
 
     this.stats.update();
 
-    this.renderer.render(this.scene, this.camera);
+    this.composer.render();
 
     this.requestId = requestAnimationFrame(this.render);
   };
 
-  private resizeRendererToDisplaySize = (renderer: THREE.WebGLRenderer) => {
+  private resizeRendererToDisplaySize = () => {
     const pixelRatio = window.devicePixelRatio;
-    const canvas = renderer.domElement;
+    const canvas = this.renderer.domElement;
 
     const width = canvas.clientWidth * pixelRatio;
     const height = canvas.clientHeight * pixelRatio;
@@ -232,7 +261,8 @@ export default class View extends ResoursesController {
     const needResize = canvas.width !== width || canvas.height !== height;
 
     if (needResize) {
-      renderer.setSize(width, height, false);
+      this.renderer.setSize(width, height, false);
+      this.composer.setSize(width, height);
     }
 
     return needResize;

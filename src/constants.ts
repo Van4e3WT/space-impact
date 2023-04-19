@@ -4,3 +4,10 @@ export const fieldBounds = {
 };
 
 export const livesNumber = 3;
+
+export const bloomParams = {
+  strength: 1,
+  threshold: 0.1,
+  radius: 0.3,
+  exposure: 1.25,
+};

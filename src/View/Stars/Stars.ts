@@ -32,6 +32,7 @@ export default class Stars extends ResoursesController {
       if (this.position[i] < MIN_VALUE) this.position[i] = MAX_VALUE;
     }
 
+    // TODO: update dynamic stars area
     if (this.stars && this.stars.geometry) {
       this.stars.geometry.attributes.position.needsUpdate = true;
     }
@@ -55,6 +56,7 @@ export default class Stars extends ResoursesController {
 
     starGeometry.setAttribute('position', new THREE.BufferAttribute(this.position, POSITION_LENGTH));
 
+    // TODO: update star texture
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(`${process.env.PUBLIC_URL}/textures/star.png`, (texture) => {
       this.considerTexture(texture);

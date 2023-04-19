@@ -35,6 +35,7 @@ export default class NPC extends ResoursesController {
   }
 
   public createEnemy = (time: number) => {
+    // TODO: update enemyGeneration algorithm
     if (time - this.lastSpawnTime < this.spawnDelta) return;
 
     if (!this.enemyObject) return;

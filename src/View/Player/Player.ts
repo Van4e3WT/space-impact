@@ -55,7 +55,6 @@ export default class Player extends ResoursesController {
   };
 
   private init = () => {
-    // TODO: resolve emissiveMap
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(`${process.env.PUBLIC_URL}/models/spaceship.glb`, (model) => {
       model.scene.scale.set(SPACESHIP_SCALE, SPACESHIP_SCALE, SPACESHIP_SCALE);

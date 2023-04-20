@@ -1,10 +1,14 @@
 import * as THREE from 'three';
+
+import { normalize } from '../../utils/normalize';
 import ResoursesController from '../ResoursesController';
 
 const POSITION_LENGTH = 3; // ...[x,y,z]
 const STARS_COUNTER = 3000;
 const MIN_VALUE = -100;
 const MAX_VALUE = 100;
+const EXCLUSION_MIN_VALUE = -10;
+const EXCLUSION_MAX_VALUE = 10;
 
 export default class Stars extends ResoursesController {
   private scene: THREE.Scene;
@@ -27,12 +31,11 @@ export default class Stars extends ResoursesController {
 
   public animateStars = () => {
     for (let i = 2; i < this.position.length; i += POSITION_LENGTH) {
-      this.position[i] -= 0.5;
+      this.position[i] -= 0.1;
 
       if (this.position[i] < MIN_VALUE) this.position[i] = MAX_VALUE;
     }
 
-    // TODO: update dynamic stars area
     if (this.stars && this.stars.geometry) {
       this.stars.geometry.attributes.position.needsUpdate = true;
     }
@@ -43,11 +46,7 @@ export default class Stars extends ResoursesController {
     const positions: Array<number> = [];
 
     for (let i = 0; i < n; i += 1) {
-      const position = [
-        Math.random() * (MAX_VALUE - MIN_VALUE) + MIN_VALUE,
-        Math.random() * (MAX_VALUE - MIN_VALUE) + MIN_VALUE,
-        Math.random() * (MAX_VALUE - MIN_VALUE) + MIN_VALUE,
-      ];
+      const position = this.calculatePosition();
 
       positions.push(...position);
     }
@@ -72,4 +71,19 @@ export default class Stars extends ResoursesController {
       this.scene.add(this.stars);
     });
   };
+
+  private calculatePosition = (): [number, number, number] => {
+    const z = Math.random() * (MAX_VALUE - MIN_VALUE) + MIN_VALUE;
+    const y = Math.random() * (MAX_VALUE - MIN_VALUE) + MIN_VALUE;
+    const x = y > EXCLUSION_MIN_VALUE && y < EXCLUSION_MAX_VALUE
+      ? this.calculateAxisWithExclusion(Math.random())
+      : (Math.random() * (MAX_VALUE - MIN_VALUE) + MIN_VALUE);
+
+    return [x, y, z];
+  };
+
+  private calculateAxisWithExclusion = (seed: number) => (seed > 0.5
+    ? (normalize(seed, 0.5, 1) * (MAX_VALUE - EXCLUSION_MAX_VALUE) + EXCLUSION_MAX_VALUE)
+    : (normalize(seed, 0, 0.5) * (EXCLUSION_MIN_VALUE - MIN_VALUE) + MIN_VALUE)
+  );
 }

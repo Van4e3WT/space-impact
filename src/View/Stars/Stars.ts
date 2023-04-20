@@ -56,15 +56,16 @@ export default class Stars extends ResoursesController {
 
     starGeometry.setAttribute('position', new THREE.BufferAttribute(this.position, POSITION_LENGTH));
 
-    // TODO: update star texture
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(`${process.env.PUBLIC_URL}/textures/star.png`, (texture) => {
       this.considerTexture(texture);
 
       const starMaterial = this.considerMaterial(new THREE.PointsMaterial({
         color: '#fff',
-        size: 0.2,
+        size: 0.15,
         map: texture,
+        transparent: true,
+        sizeAttenuation: true,
       }));
 
       this.stars = new THREE.Points(starGeometry, starMaterial);

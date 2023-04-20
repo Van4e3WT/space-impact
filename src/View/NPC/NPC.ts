@@ -10,7 +10,7 @@ const SPAWN_RANGE = 100;
 const SPEED_GROWING_EXPONENT = 5;
 const BASIC_SPAWN_DELTA = 2.5;
 const BASIC_DECREMENT_POINT = 1.5;
-const ENEMY_SCALE = 0.03125;
+const ENEMY_SCALE = 0.005;
 
 export default class NPC extends ResoursesController {
   private scene: THREE.Scene;
@@ -27,9 +27,8 @@ export default class NPC extends ResoursesController {
     super();
     this.scene = scene;
     const gltfLoader = new GLTFLoader();
-    gltfLoader.load(`${process.env.PUBLIC_URL}/models/enemy.gltf`, (model) => {
+    gltfLoader.load(`${process.env.PUBLIC_URL}/models/enemy.glb`, (model) => {
       model.scene.scale.set(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE);
-      model.scene.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI);
       this.enemyObject = model.scene;
     });
   }

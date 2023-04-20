@@ -6,7 +6,7 @@ import ResoursesController from '../ResoursesController';
 import Controls from './Controls/Controls';
 
 const SHOT_OFFSET_Y = 0.08;
-const SPACESHIP_SCALE = 0.3;
+const SPACESHIP_SCALE = 0.273;
 
 export default class Player extends ResoursesController {
   private scene: THREE.Scene;

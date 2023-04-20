@@ -10,7 +10,7 @@ const SPAWN_RANGE = 100;
 const SPEED_GROWING_EXPONENT = 5;
 const BASIC_SPAWN_DELTA = 2.5;
 const BASIC_DECREMENT_POINT = 1.5;
-const ENEMY_SCALE = 0.005;
+const ENEMY_SCALE = 0.0035;
 
 export default class NPC extends ResoursesController {
   private scene: THREE.Scene;

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-import { fieldBounds } from '../../constants';
+import { FieldBounds } from '../../constants';
 import { getRandom } from '../../utils/getRandom';
 import { ExtensionalObject } from '../ExtensionalObject';
 import ResoursesController from '../ResoursesController';
@@ -46,7 +46,7 @@ export default class NPC extends ResoursesController {
       ** SPEED_GROWING_EXPONENT;
 
     enemy.obj.position.z = SPAWN_RANGE;
-    enemy.obj.position.x = Math.round(getRandom(fieldBounds.min, fieldBounds.max));
+    enemy.obj.position.x = Math.round(getRandom(FieldBounds.MIN, FieldBounds.MAX));
 
     this.enemies.push(enemy);
 

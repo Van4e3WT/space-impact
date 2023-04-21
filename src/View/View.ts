@@ -5,7 +5,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
-import { fieldBounds, bloomParams } from '../constants';
+import { FieldBounds, BloomParams } from '../constants';
 import { lineFragment } from '../shaders/lineFragment';
 import { lineVertex } from '../shaders/lineVertex';
 import { store } from '../store/store';
@@ -117,13 +117,13 @@ export default class View extends ResoursesController {
     }));
 
     const lineGeometryMin = this.considerGeometry(new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(fieldBounds.min - LINE_OFFSET, 0, UNMOUNT_ENEMY_RANGE),
-      new THREE.Vector3(fieldBounds.min - LINE_OFFSET, 0, UNMOUNT_SHOT_RANGE),
+      new THREE.Vector3(FieldBounds.MIN - LINE_OFFSET, 0, UNMOUNT_ENEMY_RANGE),
+      new THREE.Vector3(FieldBounds.MIN - LINE_OFFSET, 0, UNMOUNT_SHOT_RANGE),
     ]));
 
     const lineGeometryMax = this.considerGeometry(new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(fieldBounds.max + LINE_OFFSET, 0, UNMOUNT_ENEMY_RANGE),
-      new THREE.Vector3(fieldBounds.max + LINE_OFFSET, 0, UNMOUNT_SHOT_RANGE),
+      new THREE.Vector3(FieldBounds.MAX + LINE_OFFSET, 0, UNMOUNT_ENEMY_RANGE),
+      new THREE.Vector3(FieldBounds.MAX + LINE_OFFSET, 0, UNMOUNT_SHOT_RANGE),
     ]));
 
     const lineMin = new THREE.Line(lineGeometryMin, lineMaterial);
@@ -158,9 +158,9 @@ export default class View extends ResoursesController {
         this.renderer.domElement.clientWidth,
         this.renderer.domElement.clientHeight,
       ),
-      bloomParams.strength,
-      bloomParams.radius,
-      bloomParams.threshold,
+      BloomParams.STRENGTH,
+      BloomParams.RADIUS,
+      BloomParams.THRESHOLD,
     );
 
     this.composer = new EffectComposer(this.renderer);
@@ -169,7 +169,7 @@ export default class View extends ResoursesController {
     this.composer.addPass(bloomPass);
 
     this.renderer.toneMapping = THREE.LinearToneMapping;
-    this.renderer.toneMappingExposure = bloomParams.exposure;
+    this.renderer.toneMappingExposure = BloomParams.EXPOSURE;
   };
 
   private initStars = () => {

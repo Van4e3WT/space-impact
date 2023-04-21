@@ -1,13 +1,13 @@
-export const fieldBounds = {
-  min: -4,
-  max: 4,
-};
+export const LIVES_NUMBER = 3;
 
-export const livesNumber = 3;
+export enum FieldBounds {
+  MIN = -4,
+  MAX = 4,
+}
 
-export const bloomParams = {
-  strength: 1,
-  threshold: 0.1,
-  radius: 0.3,
-  exposure: 1.25,
-};
+export enum BloomParams {
+  STRENGTH = 1,
+  THRESHOLD = 0.1,
+  RADIUS = 0.3,
+  EXPOSURE = 1.25,
+}

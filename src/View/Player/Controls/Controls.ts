@@ -1,4 +1,4 @@
-import { fieldBounds } from '../../../constants';
+import { FieldBounds } from '../../../constants';
 import { ExtensionalObject } from '../../ExtensionalObject';
 
 const MOVE_STEP = 0.075;
@@ -19,14 +19,14 @@ export default class Controls {
 
   public init = () => {
     const handleMoveLeft = () => {
-      if (this.item.obj.position.x > fieldBounds.max) return;
+      if (this.item.obj.position.x > FieldBounds.MAX) return;
 
       this.item.obj.position.x += MOVE_STEP;
       this.item.update();
     };
 
     const handleMoveRight = () => {
-      if (this.item.obj.position.x < fieldBounds.min) return;
+      if (this.item.obj.position.x < FieldBounds.MIN) return;
 
       this.item.obj.position.x -= MOVE_STEP;
       this.item.update();

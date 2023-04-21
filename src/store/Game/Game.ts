@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-import { livesNumber } from '../../constants';
+import { LIVES_NUMBER } from '../../constants';
 import { GameStates } from './Game.types';
 
 export class Game {
@@ -37,7 +37,7 @@ export class Game {
   };
 
   public startGame = () => {
-    this.lives = livesNumber;
+    this.lives = LIVES_NUMBER;
     this.score = 0;
     this.gameState = GameStates.PLAY;
   };

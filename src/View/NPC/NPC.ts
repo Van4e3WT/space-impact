@@ -6,7 +6,7 @@ import { getRandom } from '../../utils/getRandom';
 import { ExtensionalObject } from '../ExtensionalObject';
 import ResoursesController from '../ResoursesController';
 
-const SPAWN_RANGE = 100;
+const SPAWN_RANGE = 150;
 const SPEED_GROWING_EXPONENT = 5;
 const BASIC_SPAWN_DELTA = 2.5;
 const BASIC_DECREMENT_POINT = 1.5;

@@ -17,7 +17,7 @@ import ResoursesController from './ResoursesController';
 import Stars from './Stars/Stars';
 
 const UNMOUNT_ENEMY_RANGE = -5;
-const UNMOUNT_SHOT_RANGE = 100;
+const UNMOUNT_SHOT_RANGE = 150;
 const LINE_OFFSET = 0.5;
 
 export default class View extends ResoursesController {
@@ -139,10 +139,9 @@ export default class View extends ResoursesController {
       90,
       canvas.clientWidth / canvas.clientHeight,
       0.1,
-      1000,
+      1000, // TODO: reduce to current scene limit
     );
 
-    // TODO: add some fog or increase generation distance (for elements and env)
     // TODO: remove OribtControls on prod
     const controls = new OrbitControls(this.camera, canvas);
     this.camera.position.z = -2;
@@ -224,7 +223,7 @@ export default class View extends ResoursesController {
 
         if (this.player.box && enemyBox.intersectsBox(this.player.box)) {
           this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
-          store.game.decrementLife();
+          // store.game.decrementLife();
         }
 
         // TODO: optimize algorithm

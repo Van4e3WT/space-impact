@@ -5,8 +5,8 @@ import ResoursesController from '../ResoursesController';
 
 const POSITION_LENGTH = 3; // ...[x,y,z]
 const STARS_COUNTER = 3000;
-const MIN_VALUE = -100;
-const MAX_VALUE = 100;
+const MIN_VALUE = -150;
+const MAX_VALUE = 150;
 const EXCLUSION_MIN_VALUE = -10;
 const EXCLUSION_MAX_VALUE = 10;
 

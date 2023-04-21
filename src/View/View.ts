@@ -107,12 +107,9 @@ export default class View extends ResoursesController {
   private initLines = () => {
     const lineMaterial = this.considerMaterial(new THREE.ShaderMaterial({
       uniforms: {
-        color: {
-          value: new THREE.Color('#c4c086'),
-        },
-        origin: {
-          value: new THREE.Vector3(),
-        },
+        color: { value: new THREE.Color('#05FFFF') },
+        origin: { value: new THREE.Vector3() },
+        limitDistance: { value: 100 },
       },
       vertexShader: lineVertex,
       fragmentShader: lineFragment,

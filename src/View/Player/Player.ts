@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
+import { store } from '../../store/store';
 import { createRoundedBoxGeometry } from '../../utils/createRoundedBoxGeometry';
+import { normalize } from '../../utils/normalize';
 import { ExtensionalObject } from '../ExtensionalObject';
 import ResoursesController from '../ResoursesController';
 import Controls from './Controls/Controls';
@@ -43,6 +45,16 @@ export default class Player extends ResoursesController {
     if (this.player) this.scene.remove(this.player.obj);
     this.controls?.remove();
     super.destroy();
+  };
+
+  public updateCooldown = (time: number) => {
+    const delta = time - this.lastShotTime;
+
+    store.game.gunsCooldown = normalize(
+      delta > SHOT_COOLDOWN_SEC ? SHOT_COOLDOWN_SEC : delta,
+      0,
+      SHOT_COOLDOWN_SEC,
+    );
   };
 
   public shoot = (time: number) => {

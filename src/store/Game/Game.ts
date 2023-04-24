@@ -10,6 +10,8 @@ export class Game {
 
   private score: number = 0;
 
+  private cooldown: number = 0;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -24,6 +26,14 @@ export class Game {
 
   get state() {
     return this.gameState;
+  }
+
+  get gunsCooldown() {
+    return this.cooldown;
+  }
+
+  set gunsCooldown(value: number) {
+    this.cooldown = value;
   }
 
   public incrementScore = () => {

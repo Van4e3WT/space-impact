@@ -199,6 +199,7 @@ export default class View extends ResoursesController {
 
     // TODO: move enemies and shots updates into separated methods
 
+    this.player.updateCooldown(this.time);
     this.player.shots.forEach((shot, index) => {
       const { obj, creationTime } = shot;
 

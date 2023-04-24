@@ -2,7 +2,9 @@
   "name": "space-impact",
   "version": "0.0.1",
   "private": true,
+  "homepage": "https://van4e3wt.github.io/space-impact",
   "scripts": {
+    "deploy": "gh-pages -d build",
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "start": "serve -s build",

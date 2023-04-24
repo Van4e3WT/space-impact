@@ -208,7 +208,6 @@ export default class View extends ResoursesController {
 
         shot.update();
       } else {
-        // TODO: stress test comparator (E2E)
         this.player.shots = this.player.shots.filter(this.makeComparator(index));
       }
     });
@@ -223,7 +222,7 @@ export default class View extends ResoursesController {
 
         if (this.player.box && enemyBox.intersectsBox(this.player.box)) {
           this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
-          // store.game.decrementLife();
+          store.game.decrementLife();
         }
 
         // TODO: optimize algorithm

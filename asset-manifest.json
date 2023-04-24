@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.55a8791a.css",
+    "main.js": "/static/js/main.0818fb71.js",
+    "static/media/magneto-bold.woff": "/static/media/magneto-bold.84d191526512294fcfab.woff",
+    "static/media/menu-background.jpg": "/static/media/menu-background.67fa563c4df1c3ef0822.jpg",
+    "static/media/ubuntu-mono-bold-italic.woff": "/static/media/ubuntu-mono-bold-italic.ca51617b06d79747cb31.woff",
+    "static/media/ubuntu-mono-italic.woff": "/static/media/ubuntu-mono-italic.02ca517ad7bf35b12a8b.woff",
+    "static/media/ubuntu-mono.woff": "/static/media/ubuntu-mono.4bd18e45bc4a5be114f5.woff",
+    "static/media/ubuntu-mono-bold.woff": "/static/media/ubuntu-mono-bold.6125d2a8ecc3167bd018.woff",
+    "static/media/ubuntu-mono-bold-italic.woff2": "/static/media/ubuntu-mono-bold-italic.499718e292c26a0c84e1.woff2",
+    "static/media/ubuntu-mono-italic.woff2": "/static/media/ubuntu-mono-italic.3413429e0bdeb325157e.woff2",
+    "static/media/ubuntu-mono.woff2": "/static/media/ubuntu-mono.06f53cf2dc423e245bcb.woff2",
+    "static/media/ubuntu-mono-bold.woff2": "/static/media/ubuntu-mono-bold.728c6d8b25b52f3c2e25.woff2",
+    "index.html": "/index.html",
+    "main.55a8791a.css.map": "/static/css/main.55a8791a.css.map",
+    "main.0818fb71.js.map": "/static/js/main.0818fb71.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.55a8791a.css",
+    "static/js/main.0818fb71.js"
+  ]
+}

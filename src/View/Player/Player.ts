@@ -6,6 +6,7 @@ import { ExtensionalObject } from '../ExtensionalObject';
 import ResoursesController from '../ResoursesController';
 import Controls from './Controls/Controls';
 
+const SHOT_COOLDOWN_SEC = 0.5;
 const SHOT_OFFSET_X = 0.4;
 const SPACESHIP_SCALE = 0.273;
 
@@ -19,6 +20,8 @@ export default class Player extends ResoursesController {
   private shotGeometry: THREE.BufferGeometry;
 
   private shotMaterial: THREE.Material;
+
+  private lastShotTime = 0;
 
   public shots: Array<ExtensionalObject> = [];
 
@@ -43,7 +46,9 @@ export default class Player extends ResoursesController {
   };
 
   public shoot = (time: number) => {
-    if (!this.player) return;
+    if (!this.player || time - this.lastShotTime < SHOT_COOLDOWN_SEC) return;
+
+    this.lastShotTime = time;
 
     const leftGunShot = new ExtensionalObject(
       time,

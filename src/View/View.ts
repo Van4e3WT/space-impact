@@ -10,7 +10,6 @@ import { lineFragment } from '../shaders/lineFragment';
 import { lineVertex } from '../shaders/lineVertex';
 import { store } from '../store/store';
 import { ExtensionalObject } from './ExtensionalObject';
-import { throttleKey } from './helpers/throttleKey';
 import NPC from './NPC/NPC';
 import Player from './Player/Player';
 import ResoursesController from './ResoursesController';
@@ -263,8 +262,11 @@ export default class View extends ResoursesController {
     return needResize;
   };
 
-  // TODO: Bind throttleKey to player shoot
-  private handlePlayerShoot = throttleKey(' ', () => this.player.shoot(this.time), 500);
+  private handlePlayerShoot = (e: globalThis.KeyboardEvent) => {
+    if (e.key !== ' ' || e.repeat) return;
+
+    this.player.shoot(this.time);
+  };
 
   private makeComparator = (removableIndex: number) => (
     extensionalObject: ExtensionalObject,

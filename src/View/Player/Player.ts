@@ -60,6 +60,8 @@ export default class Player extends ResoursesController {
   public shoot = (time: number) => {
     if (!this.player || time - this.lastShotTime < SHOT_COOLDOWN_SEC) return;
 
+    store.game.decrementScore();
+
     this.lastShotTime = time;
 
     const leftGunShot = new ExtensionalObject(

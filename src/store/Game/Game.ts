@@ -3,6 +3,9 @@ import { makeAutoObservable } from 'mobx';
 import { LIVES_NUMBER } from '../../constants';
 import { GameStates } from './Game.types';
 
+const SHOT_COST = 10;
+const ENEMY_COST = 50;
+
 export class Game {
   private gameState: GameStates = GameStates.START;
 
@@ -37,7 +40,11 @@ export class Game {
   }
 
   public incrementScore = () => {
-    this.score += 50;
+    this.score += ENEMY_COST;
+  };
+
+  public decrementScore = () => {
+    this.score -= SHOT_COST;
   };
 
   public decrementLife = () => {

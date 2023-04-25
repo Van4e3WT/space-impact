@@ -3,9 +3,6 @@ import { makeAutoObservable } from 'mobx';
 import { LIVES_NUMBER } from '../../constants';
 import { GameStates } from './Game.types';
 
-const SHOT_COST = 10;
-const ENEMY_COST = 50;
-
 export class Game {
   private gameState: GameStates = GameStates.START;
 
@@ -39,16 +36,16 @@ export class Game {
     this.cooldown = value;
   }
 
-  public incrementScore = () => {
-    this.score += ENEMY_COST;
+  public incrementScore = (value: number) => {
+    this.score += value;
   };
 
-  public decrementScore = () => {
-    this.score -= SHOT_COST;
+  public decrementScore = (value: number) => {
+    this.score -= value;
   };
 
-  public decrementLife = () => {
-    this.lives -= 1;
+  public decrementLife = (value = 1) => {
+    this.lives -= value;
 
     if (this.lives < 0) this.gameState = GameStates.END;
   };

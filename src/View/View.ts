@@ -18,6 +18,8 @@ import Stars from './Stars/Stars';
 const UNMOUNT_ENEMY_RANGE = -5;
 const UNMOUNT_SHOT_RANGE = 150;
 const LINE_OFFSET = 0.5;
+const MISSED_ENEMY_COST = 100;
+const ENEMY_COST = 50;
 
 export default class View extends ResoursesController {
   private requestId: number;
@@ -233,12 +235,12 @@ export default class View extends ResoursesController {
           if (enemyBox.intersectsBox(shotBox)) {
             this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
             this.player.shots = this.player.shots.filter(this.makeComparator(shotIndex));
-            store.game.incrementScore();
+            store.game.incrementScore(ENEMY_COST);
           }
         });
       } else {
         this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
-        // TODO: add decrement life or score
+        store.game.decrementScore(MISSED_ENEMY_COST);
       }
     });
 

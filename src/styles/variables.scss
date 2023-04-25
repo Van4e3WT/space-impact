@@ -1,7 +1,7 @@
-$light-color: #d0e2ec;
-$dark-color: #30345f;
-$dark-accent-color: #593513;
-$light-accent-color: #C4C086;
+$light-color: #09F8FD;
+$dark-color: #082E31;
+$dark-accent-color: #093F00;
+$light-accent-color: #4BD134;
 $error-color: #FF0000;
 
 $primary-font: 'Bruno Ace SC', serif;
@@ -25,8 +25,10 @@ $bordered-shadow:
 @mixin title() {
   font-family: $primary-font;
   font-size: 145px;
+  letter-spacing: 5px;
   color: $dark-accent-color;
   text-shadow: $bordered-shadow;
+  user-select: none;
 }
 
 @mixin button {
@@ -37,10 +39,13 @@ $bordered-shadow:
   color: $light-accent-color;
   font-size: 80px;
   font-weight: 700;
-  font-style: italic;
   font-family: $secondary-font;
-  letter-spacing: -4px;
   box-shadow: $bordered-shadow;
   text-transform: uppercase;
+  user-select: none;
   cursor: pointer;
+
+  &:hover {
+    text-shadow: 0 0 5px $light-accent-color;
+  }
 }

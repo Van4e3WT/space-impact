@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 
-import { HeartIcon } from '../../assets/icons/HeartIcon';
+import { CyberShieldIcon } from '../../assets/icons/CyberShieldIcon';
 import gunsImage from '../../assets/images/guns-image.png';
 import { LIVES_NUMBER } from '../../constants';
 import { store } from '../../store/store';
@@ -24,7 +24,7 @@ export const Play: React.FC = observer(() => (
             { [S['life--disabled']]: idx > store.game.playerLives - 1 },
           )}
         >
-          <HeartIcon />
+          <CyberShieldIcon />
         </div>
       ))}
     </span>

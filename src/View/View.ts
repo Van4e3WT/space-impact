@@ -222,7 +222,10 @@ export default class View extends ResoursesController {
 
         if (this.player.box && enemyBox.intersectsBox(this.player.box)) {
           this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
-          store.game.decrementLife();
+          if (!this.player.isInvulnerable) {
+            store.game.decrementLife();
+            this.player.enableInvulnerable();
+          }
         }
 
         // TODO: optimize algorithm
@@ -235,7 +238,7 @@ export default class View extends ResoursesController {
         });
       } else {
         this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));
-        // TODO: add decrement life here too
+        // TODO: add decrement life or score
       }
     });
 

@@ -11,6 +11,8 @@ import Controls from './Controls/Controls';
 const SHOT_COOLDOWN_SEC = 0.5;
 const SHOT_OFFSET_X = 0.4;
 const SPACESHIP_SCALE = 0.273;
+const INVULNERABILITY_TIME_MS = 3000;
+const FLICKERING_FREQUENCY_MS = 150;
 
 export default class Player extends ResoursesController {
   private scene: THREE.Scene;
@@ -28,6 +30,8 @@ export default class Player extends ResoursesController {
   private shotMaterial: THREE.Material;
 
   private lastShotTime = 0;
+
+  private isPlayerInvulnerable = false;
 
   public shots: Array<ExtensionalObject> = [];
 
@@ -49,10 +53,31 @@ export default class Player extends ResoursesController {
     return this.player?.box;
   }
 
+  get isInvulnerable() {
+    return this.isPlayerInvulnerable;
+  }
+
   public destroy = () => {
     if (this.player) this.scene.remove(this.player.obj);
     this.controls?.remove();
     super.destroy();
+  };
+
+  public enableInvulnerable = () => {
+    this.isPlayerInvulnerable = true;
+
+    let toggler = true;
+
+    const flickering = setInterval(() => {
+      this.toggleModel(toggler);
+      toggler = !toggler;
+    }, FLICKERING_FREQUENCY_MS);
+
+    setTimeout(() => {
+      this.isPlayerInvulnerable = false;
+      clearInterval(flickering);
+      this.toggleModel();
+    }, INVULNERABILITY_TIME_MS);
   };
 
   public updateCooldown = (time: number) => {
@@ -93,7 +118,7 @@ export default class Player extends ResoursesController {
     this.scene.add(leftGunShot.obj, rightGunShot.obj);
   };
 
-  public toggleModel = (isToggle = false) => {
+  private toggleModel = (isToggle = false) => {
     if (!(this.player?.obj instanceof THREE.Group) || !this.playerModelMaterial) return;
 
     this.player.obj.traverse((obj) => {

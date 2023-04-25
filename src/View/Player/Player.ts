@@ -19,6 +19,10 @@ export default class Player extends ResoursesController {
 
   private controls: Controls | null = null;
 
+  private playerModelMaterial: THREE.Material | null = null;
+
+  private playerFlickeringMaterial: THREE.Material;
+
   private shotGeometry: THREE.BufferGeometry;
 
   private shotMaterial: THREE.Material;
@@ -33,6 +37,10 @@ export default class Player extends ResoursesController {
 
     this.shotGeometry = this.considerGeometry(createRoundedBoxGeometry(0.1, 0.05, 0.3, 0.05, 1));
     this.shotMaterial = this.considerMaterial(new THREE.MeshBasicMaterial({ color: '#FF4540' }));
+    this.playerFlickeringMaterial = this.considerMaterial(new THREE.MeshBasicMaterial({
+      opacity: 0,
+      transparent: true,
+    }));
 
     this.init();
   }
@@ -85,6 +93,16 @@ export default class Player extends ResoursesController {
     this.scene.add(leftGunShot.obj, rightGunShot.obj);
   };
 
+  public toggleModel = (isToggle = false) => {
+    if (!(this.player?.obj instanceof THREE.Group) || !this.playerModelMaterial) return;
+
+    this.player.obj.traverse((obj) => {
+      if (!(obj instanceof THREE.Mesh)) return;
+      // eslint-disable-next-line no-param-reassign
+      obj.material = isToggle ? this.playerFlickeringMaterial : this.playerModelMaterial;
+    });
+  };
+
   private init = () => {
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(`${process.env.PUBLIC_URL}/models/spaceship.glb`, (model) => {
@@ -92,6 +110,9 @@ export default class Player extends ResoursesController {
       this.player = new ExtensionalObject(0, model.scene);
 
       model.scene.rotateY(Math.PI);
+
+      const defaultObj = model.scene.getObjectByName('defaultMaterial');
+      if (defaultObj instanceof THREE.Mesh) this.playerModelMaterial = defaultObj.material;
 
       this.scene.add(this.player.obj);
 

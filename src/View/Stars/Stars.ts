@@ -17,10 +17,10 @@ export default class Stars extends ResoursesController {
 
   private stars: THREE.Points | null = null;
 
-  constructor(scene: THREE.Scene) {
+  constructor(scene: THREE.Scene, manager?: THREE.LoadingManager) {
     super();
     this.scene = scene;
-    this.init(STARS_COUNTER);
+    this.init(STARS_COUNTER, manager);
   }
 
   public destroy = () => {
@@ -41,7 +41,7 @@ export default class Stars extends ResoursesController {
     }
   };
 
-  private init = (n: number) => {
+  private init = (n: number, manager?: THREE.LoadingManager) => {
     const starGeometry = this.considerGeometry(new THREE.BufferGeometry());
     const positions: Array<number> = [];
 
@@ -55,7 +55,7 @@ export default class Stars extends ResoursesController {
 
     starGeometry.setAttribute('position', new THREE.BufferAttribute(this.position, POSITION_LENGTH));
 
-    const textureLoader = new THREE.TextureLoader();
+    const textureLoader = new THREE.TextureLoader(manager);
     textureLoader.load(`${process.env.PUBLIC_URL}/textures/star.png`, (texture) => {
       this.considerTexture(texture);
 

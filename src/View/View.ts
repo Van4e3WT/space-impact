@@ -38,6 +38,8 @@ export default class View extends ResoursesController {
 
   private npc!: NPC;
 
+  private loadingManager!: THREE.LoadingManager;
+
   private stats: Stats;
 
   private time: number;
@@ -50,6 +52,7 @@ export default class View extends ResoursesController {
     this.time = 0;
     this.stats = Stats();
 
+    this.initLoadingManager();
     this.initRenderer();
     this.initScene();
     this.initCamera();
@@ -173,17 +176,25 @@ export default class View extends ResoursesController {
   };
 
   private initStars = () => {
-    this.stars = new Stars(this.scene);
+    this.stars = new Stars(this.scene, this.loadingManager);
   };
 
   private initNPC = () => {
-    this.npc = new NPC(this.scene);
+    this.npc = new NPC(this.scene, this.loadingManager);
   };
 
   private initPlayer = () => {
-    this.player = new Player(this.scene);
+    this.player = new Player(this.scene, this.loadingManager);
 
     document.addEventListener('keydown', this.handlePlayerShoot);
+  };
+
+  private initLoadingManager = () => {
+    this.loadingManager = new THREE.LoadingManager();
+
+    this.loadingManager.onProgress = (_, loaded, total) => {
+      store.game.loadingProgress = loaded / total;
+    };
   };
 
   private render = (time: number) => {

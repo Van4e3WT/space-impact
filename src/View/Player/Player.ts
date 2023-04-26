@@ -36,7 +36,7 @@ export default class Player extends ResoursesController {
 
   public shots: Array<ExtensionalObject> = [];
 
-  constructor(scene: THREE.Scene) {
+  constructor(scene: THREE.Scene, manager?: THREE.LoadingManager) {
     super();
     this.scene = scene;
 
@@ -47,7 +47,7 @@ export default class Player extends ResoursesController {
       transparent: true,
     }));
 
-    this.init();
+    this.init(manager);
   }
 
   get box() {
@@ -129,8 +129,8 @@ export default class Player extends ResoursesController {
     });
   };
 
-  private init = () => {
-    const gltfLoader = new GLTFLoader();
+  private init = (manager?: THREE.LoadingManager) => {
+    const gltfLoader = new GLTFLoader(manager);
     gltfLoader.load(`${process.env.PUBLIC_URL}/models/spaceship.glb`, (model) => {
       model.scene.scale.set(SPACESHIP_SCALE, SPACESHIP_SCALE, SPACESHIP_SCALE);
       this.player = new ExtensionalObject(0, model.scene);

@@ -23,10 +23,10 @@ export default class NPC extends ResoursesController {
 
   public enemies: Array<ExtensionalObject> = [];
 
-  constructor(scene: THREE.Scene) {
+  constructor(scene: THREE.Scene, manager?: THREE.LoadingManager) {
     super();
     this.scene = scene;
-    const gltfLoader = new GLTFLoader();
+    const gltfLoader = new GLTFLoader(manager);
     gltfLoader.load(`${process.env.PUBLIC_URL}/models/enemy.glb`, (model) => {
       model.scene.scale.set(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE);
       this.enemyObject = model.scene;

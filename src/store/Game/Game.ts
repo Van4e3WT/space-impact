@@ -12,6 +12,8 @@ export class Game {
 
   private cooldown: number = 0;
 
+  private loading: number = 0;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -34,6 +36,14 @@ export class Game {
 
   set gunsCooldown(value: number) {
     this.cooldown = value;
+  }
+
+  get loadingProgress() {
+    return this.loading;
+  }
+
+  set loadingProgress(value: number) {
+    this.loading = value;
   }
 
   public incrementScore = (value: number) => {

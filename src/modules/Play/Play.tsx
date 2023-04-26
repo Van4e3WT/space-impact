@@ -6,6 +6,7 @@ import gunsImage from '../../assets/images/guns-image.png';
 import { LIVES_NUMBER } from '../../constants';
 import { store } from '../../store/store';
 import S from './Play.module.scss';
+import { Loading } from './Loading/Loading';
 
 export const Play: React.FC = observer(() => (
   <>
@@ -34,5 +35,6 @@ export const Play: React.FC = observer(() => (
       </svg>
       <img className={S['guns-img']} src={gunsImage} alt="guns" />
     </div>
+    {store.game.loadingProgress < 1 && <Loading progress={store.game.loadingProgress} />}
   </>
 ));

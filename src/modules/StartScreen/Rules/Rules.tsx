@@ -6,7 +6,7 @@ type Props = {
 
 export const Rules: React.FC<Props> = ({ rules }) => (
   <div className={S['wrapper']}>
-    <span className={S['title']}>Rules:</span>
+    <span className={S['title']}>Rules</span>
     <ul className={S['list']}>
       {rules.map((val) => (
         <li key={val} className={S['list-item']}>{val}</li>

@@ -8,6 +8,13 @@
 
 .container {
   @include container();
+
+  @media (max-width: $br-lg) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
 }
 
 .title {
@@ -16,6 +23,10 @@
   position: absolute;
   top: 7%;
   left: 15px;
+
+  @media (max-width: $br-lg) {
+    position: static;
+  }
 }
 
 .start-button {
@@ -24,10 +35,18 @@
   position: absolute;
   right: 15px;
   bottom: 7%;
+
+  @media (max-width: $br-lg) {
+    position: static;
+  }
 }
 
 .rules {
   position: absolute;
   bottom: 7%;
   left: 15px;
+
+  @media (max-width: $br-lg) {
+    position: static;
+  }
 }

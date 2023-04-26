@@ -7,6 +7,10 @@ $error-color: #FF0000;
 $primary-font: 'Bruno Ace SC', serif;
 $secondary-font: 'Ubuntu Mono', Ubuntu, sans-serif;
 
+$br-lg: 1024px;
+$br-md: 768px;
+$br-sm: 576px;
+
 @mixin bordered-shadow($color) {
   box-shadow: 
     0 0 3px 0 $color,
@@ -46,6 +50,18 @@ $secondary-font: 'Ubuntu Mono', Ubuntu, sans-serif;
   letter-spacing: 5px;
   color: $dark-accent-color;
   user-select: none;
+
+  @media (max-width: $br-lg) {
+    text-align: center;
+  }
+
+  @media (max-width: $br-md) {
+    font-size: 100px;
+  }
+
+  @media (max-width: $br-sm) {
+    font-size: 64px;
+  }
 }
 
 @mixin button {
@@ -61,6 +77,16 @@ $secondary-font: 'Ubuntu Mono', Ubuntu, sans-serif;
   font-family: $secondary-font;
   user-select: none;
   cursor: pointer;
+
+  @media (max-width: $br-md) {
+    padding: 12px 40px;
+    font-size: 60px;
+  }
+
+  @media (max-width: $br-sm) {
+    padding: 8px 30px;
+    font-size: 40px;
+  }
 
   &:hover {
     text-shadow: 0 0 5px $light-accent-color;

@@ -9,7 +9,7 @@ export const EndScreen = () => (
         Your score:
         {' '}
         <span className={S['highlight']}>{store.game.playerScore}</span>
-        {' '}
+        {'\xa0'}
         points
       </span>
       <button

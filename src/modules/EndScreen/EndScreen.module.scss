@@ -28,6 +28,12 @@
   color: $dark-accent-color;
   font-size: 42px;
   font-weight: 700;
+  line-height: 125%;
+  text-align: center;
+
+  @media (max-width: $br-md) {
+    font-size: 32px;
+  }
 }
 
 .restart-button {

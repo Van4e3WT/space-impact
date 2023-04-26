@@ -1,0 +1,33 @@
+@import 'src/styles/variables';
+
+.wrapper {
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  border-radius: 8px;
+  background-color: rgba($light-color, 0.25);
+  box-shadow:
+    0 0 15px 0 $light-color,
+    0 0 15px 0 $light-color;
+}
+
+.title {
+  color: $light-color;
+  font-family: $primary-font;
+  font-size: 24px;
+}
+
+.list {
+  margin-bottom: 15px;
+  color: $light-color;
+  list-style-type: "✦";
+
+  &-item {
+    margin-left: 12px;
+    padding-left: 5px;
+  }
+}
+
+.motivation {
+  font-family: $primary-font;
+}

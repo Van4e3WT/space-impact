@@ -13,13 +13,19 @@ $bordered-shadow:
   2px -2px 3px $light-accent-color,
   -2px -2px 3px $light-accent-color;
 
-@mixin container() {
-  width: 100vw;
-  height: 100vh;
+@mixin background-normalize() {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  image-rendering: pixelated;
+}
+
+@mixin container() {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
 @mixin title() {
@@ -41,7 +47,6 @@ $bordered-shadow:
   font-weight: 700;
   font-family: $secondary-font;
   box-shadow: $bordered-shadow;
-  text-transform: uppercase;
   user-select: none;
   cursor: pointer;
 

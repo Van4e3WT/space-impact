@@ -1,9 +1,13 @@
 @import '../../styles/variables.scss';
 
-.container {
-  @include container();
+.wrapper {
+  @include background-normalize();
 
   background-image: url('../../assets/images/menu-background.jpg');
+}
+
+.container {
+  @include container();
 }
 
 .title {
@@ -11,13 +15,19 @@
 
   position: absolute;
   top: 7%;
-  left: 7%;
+  left: 15px;
 }
 
 .start-button {
   @include button();
 
   position: absolute;
-  right: 10%;
-  bottom: 10%;
+  right: 15px;
+  bottom: 7%;
+}
+
+.rules {
+  position: absolute;
+  bottom: 7%;
+  left: 15px;
 }

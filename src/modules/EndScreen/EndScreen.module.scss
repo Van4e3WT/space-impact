@@ -1,5 +1,11 @@
 @import '../../styles/variables.scss';
 
+.wrapper {
+  @include background-normalize();
+
+  background-image: url('../../assets/images/common-background.jpg');
+}
+
 .container {
   @include container();
   display: flex;
@@ -7,7 +13,6 @@
   align-items: center;
   flex-flow: column nowrap;
   gap: 50px;
-  background-image: url('../../assets/images/common-background.jpg');
 }
 
 .title {

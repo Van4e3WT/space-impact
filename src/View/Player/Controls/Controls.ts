@@ -32,12 +32,10 @@ export default class Controls {
       this.item.update();
     };
 
-    this.addKeyControl('a', handleMoveLeft);
-    this.addKeyControl('A', handleMoveLeft);
+    this.addKeyControl('KeyA', handleMoveLeft);
     this.addKeyControl('ArrowLeft', handleMoveLeft);
 
-    this.addKeyControl('d', handleMoveRight);
-    this.addKeyControl('D', handleMoveRight);
+    this.addKeyControl('KeyD', handleMoveRight);
     this.addKeyControl('ArrowRight', handleMoveRight);
   };
 
@@ -51,21 +49,21 @@ export default class Controls {
     });
   };
 
-  private addKeyControl = (key: string, onInteraction: () => void) => {
+  private addKeyControl = (code: string, onInteraction: () => void) => {
     let interval: NodeJS.Timer;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== key || this.keyIsDown[key]) return;
+      if (e.code !== code || this.keyIsDown[code]) return;
 
       interval = setInterval(onInteraction, KEY_REFRESH_LATENCY);
-      this.keyIsDown[key] = true;
+      this.keyIsDown[code] = true;
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key !== key) return;
+      if (e.code !== code) return;
 
       clearInterval(interval);
-      this.keyIsDown[key] = false;
+      this.keyIsDown[code] = false;
     };
 
     this.keyDownHandlers.push(handleKeyDown);

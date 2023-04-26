@@ -269,7 +269,7 @@ export default class View extends ResoursesController {
   };
 
   private handlePlayerShoot = (e: globalThis.KeyboardEvent) => {
-    if (e.key !== ' ' || e.repeat) return;
+    if (e.code !== 'Space' || e.repeat) return;
 
     this.player.shoot(this.time);
   };

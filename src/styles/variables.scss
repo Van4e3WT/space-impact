@@ -7,11 +7,21 @@ $error-color: #FF0000;
 $primary-font: 'Bruno Ace SC', serif;
 $secondary-font: 'Ubuntu Mono', Ubuntu, sans-serif;
 
-$bordered-shadow:
-  2px 2px 3px $light-accent-color,
-  -2px 2px 3px $light-accent-color,
-  2px -2px 3px $light-accent-color,
-  -2px -2px 3px $light-accent-color;
+@mixin bordered-shadow($color) {
+  box-shadow: 
+    0 0 3px 0 $color,
+    0 0 3px 0 $color,
+    0 0 3px 0 $color,
+    0 0 3px 0 $color;
+}
+
+@mixin bordered-text-shadow($color) {
+  text-shadow: 
+    2px 2px 3px $color,
+    -2px 2px 3px $color,
+    2px -2px 3px $color,
+    -2px -2px 3px $color;
+}
 
 @mixin background-normalize() {
   background-repeat: no-repeat;
@@ -29,15 +39,18 @@ $bordered-shadow:
 }
 
 @mixin title() {
+  @include bordered-text-shadow($light-accent-color);
+
   font-family: $primary-font;
   font-size: 145px;
   letter-spacing: 5px;
   color: $dark-accent-color;
-  text-shadow: $bordered-shadow;
   user-select: none;
 }
 
 @mixin button {
+  @include bordered-shadow($light-accent-color);
+
   padding: 15px 50px;
   border: 1px solid $light-accent-color;
   border-radius: 5px;
@@ -46,7 +59,6 @@ $bordered-shadow:
   font-size: 80px;
   font-weight: 700;
   font-family: $secondary-font;
-  box-shadow: $bordered-shadow;
   user-select: none;
   cursor: pointer;
 

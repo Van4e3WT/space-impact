@@ -1,11 +1,12 @@
 {
   "files": {
-    "main.css": "/space-impact/static/css/main.b01c3b6c.css",
-    "main.js": "/space-impact/static/js/main.0cf631e2.js",
-    "static/media/magneto-bold.woff": "/space-impact/static/media/magneto-bold.84d191526512294fcfab.woff",
-    "static/media/menu-background.jpg": "/space-impact/static/media/menu-background.67fa563c4df1c3ef0822.jpg",
+    "main.css": "/space-impact/static/css/main.4fef5e37.css",
+    "main.js": "/space-impact/static/js/main.787a7db4.js",
+    "static/media/menu-background.jpg": "/space-impact/static/media/menu-background.57eedff2e3158b1bf822.jpg",
+    "static/media/common-background.jpg": "/space-impact/static/media/common-background.e884ea370c085a54e864.jpg",
     "static/media/ubuntu-mono-bold-italic.woff": "/space-impact/static/media/ubuntu-mono-bold-italic.ca51617b06d79747cb31.woff",
     "static/media/ubuntu-mono-italic.woff": "/space-impact/static/media/ubuntu-mono-italic.02ca517ad7bf35b12a8b.woff",
+    "static/media/bruno-ace-sc-regular.woff": "/space-impact/static/media/bruno-ace-sc-regular.19bfe7685f19c64e22a7.woff",
     "static/media/ubuntu-mono.woff": "/space-impact/static/media/ubuntu-mono.4bd18e45bc4a5be114f5.woff",
     "static/media/guns-image.png": "/space-impact/static/media/guns-image.065bc548873dffb15104.png",
     "static/media/ubuntu-mono-bold.woff": "/space-impact/static/media/ubuntu-mono-bold.6125d2a8ecc3167bd018.woff",
@@ -13,12 +14,13 @@
     "static/media/ubuntu-mono-italic.woff2": "/space-impact/static/media/ubuntu-mono-italic.3413429e0bdeb325157e.woff2",
     "static/media/ubuntu-mono.woff2": "/space-impact/static/media/ubuntu-mono.06f53cf2dc423e245bcb.woff2",
     "static/media/ubuntu-mono-bold.woff2": "/space-impact/static/media/ubuntu-mono-bold.728c6d8b25b52f3c2e25.woff2",
+    "static/media/bruno-ace-sc-regular.woff2": "/space-impact/static/media/bruno-ace-sc-regular.a3569e9b4c49824e407d.woff2",
     "index.html": "/space-impact/index.html",
-    "main.b01c3b6c.css.map": "/space-impact/static/css/main.b01c3b6c.css.map",
-    "main.0cf631e2.js.map": "/space-impact/static/js/main.0cf631e2.js.map"
+    "main.4fef5e37.css.map": "/space-impact/static/css/main.4fef5e37.css.map",
+    "main.787a7db4.js.map": "/space-impact/static/js/main.787a7db4.js.map"
   },
   "entrypoints": [
-    "static/css/main.b01c3b6c.css",
-    "static/js/main.0cf631e2.js"
+    "static/css/main.4fef5e37.css",
+    "static/js/main.787a7db4.js"
   ]
 }

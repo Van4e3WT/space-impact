@@ -104,10 +104,11 @@ export default class View extends ResoursesController {
     const ambientLight = new THREE.AmbientLight('#FFFFFF', 0.3);
     this.scene.add(ambientLight);
 
-    // TODO: optimize light
-    const pointLight = new THREE.PointLight('#FFFFFF', 1);
-    pointLight.position.set(-1, 2, 4);
-    this.scene.add(pointLight);
+    const directionalLight = new THREE.DirectionalLight('#FFFFFF', 0.5);
+    directionalLight.position.set(-1, 2, 4);
+    directionalLight.target.position.set(0, 0, 0);
+    this.scene.add(directionalLight);
+    this.scene.add(directionalLight.target);
 
     this.initLines();
   };
@@ -217,8 +218,6 @@ export default class View extends ResoursesController {
 
     this.stars.animateStars();
 
-    // TODO: move enemies and shots updates into separated methods
-
     this.player.updateCooldown(this.time);
     this.player.shots.forEach((shot, index) => {
       const { obj, creationTime } = shot;
@@ -248,7 +247,6 @@ export default class View extends ResoursesController {
           }
         }
 
-        // TODO: optimize algorithm
         this.player.shots.forEach(({ box: shotBox }, shotIndex) => {
           if (enemyBox.intersectsBox(shotBox)) {
             this.npc.enemies = this.npc.enemies.filter(this.makeComparator(enemyIndex));

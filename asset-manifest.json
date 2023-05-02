@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/space-impact/static/css/main.4fef5e37.css",
-    "main.js": "/space-impact/static/js/main.787a7db4.js",
+    "main.css": "/space-impact/static/css/main.30d05d9c.css",
+    "main.js": "/space-impact/static/js/main.73e54767.js",
     "static/media/menu-background.jpg": "/space-impact/static/media/menu-background.57eedff2e3158b1bf822.jpg",
     "static/media/common-background.jpg": "/space-impact/static/media/common-background.e884ea370c085a54e864.jpg",
     "static/media/ubuntu-mono-bold-italic.woff": "/space-impact/static/media/ubuntu-mono-bold-italic.ca51617b06d79747cb31.woff",
@@ -16,11 +16,11 @@
     "static/media/ubuntu-mono-bold.woff2": "/space-impact/static/media/ubuntu-mono-bold.728c6d8b25b52f3c2e25.woff2",
     "static/media/bruno-ace-sc-regular.woff2": "/space-impact/static/media/bruno-ace-sc-regular.a3569e9b4c49824e407d.woff2",
     "index.html": "/space-impact/index.html",
-    "main.4fef5e37.css.map": "/space-impact/static/css/main.4fef5e37.css.map",
-    "main.787a7db4.js.map": "/space-impact/static/js/main.787a7db4.js.map"
+    "main.30d05d9c.css.map": "/space-impact/static/css/main.30d05d9c.css.map",
+    "main.73e54767.js.map": "/space-impact/static/js/main.73e54767.js.map"
   },
   "entrypoints": [
-    "static/css/main.4fef5e37.css",
-    "static/js/main.787a7db4.js"
+    "static/css/main.30d05d9c.css",
+    "static/js/main.73e54767.js"
   ]
 }

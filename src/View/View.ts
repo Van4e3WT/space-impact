@@ -73,10 +73,12 @@ export default class View extends ResoursesController {
   public destroy = () => {
     cancelAnimationFrame(this.requestId);
 
+    this.player.playerShootControl?.removeEventListener('pointerdown', this.handlePlayerShoot);
+    document.removeEventListener('keydown', this.handlePlayerShoot);
+
     this.npc.destroy();
     this.player.destroy();
     this.stars.destroy();
-    document.removeEventListener('keydown', this.handlePlayerShoot);
 
     super.destroy();
 
@@ -187,6 +189,7 @@ export default class View extends ResoursesController {
     this.player = new Player(this.scene, this.loadingManager);
 
     document.addEventListener('keydown', this.handlePlayerShoot);
+    this.player.playerShootControl?.addEventListener('pointerdown', this.handlePlayerShoot);
   };
 
   private initLoadingManager = () => {
@@ -279,8 +282,8 @@ export default class View extends ResoursesController {
     return needResize;
   };
 
-  private handlePlayerShoot = (e: globalThis.KeyboardEvent) => {
-    if (e.code !== 'Space' || e.repeat) return;
+  private handlePlayerShoot = (e: Event) => {
+    if (e instanceof KeyboardEvent && (e.code !== 'Space' || e.repeat)) return;
 
     this.player.shoot(this.time);
   };

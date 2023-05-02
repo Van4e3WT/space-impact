@@ -11,10 +11,17 @@
   text-transform: uppercase;
 }
 
-.lives {
+.controls-group {
   position: fixed;
   right: 30px;
   bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+}
+
+.lives {
   display: flex;
   flex-direction: row-reverse;
   gap: 5px;
@@ -23,6 +30,10 @@
 .life {
   width: 50px;
   color: $light-color;
+
+  @media (max-width: $br-sm) {
+    width: 40px;
+  }
 
   &--disabled {
     color: $dark-color;
@@ -33,7 +44,7 @@
   }
 }
 
-.cooldown {
+.shoot {
   position: fixed;
   bottom: 30px;
   left: 30px;
@@ -41,6 +52,14 @@
   width: 150px;
   border-radius: 50%;
   border: 2px dotted $light-color;
+  background-color: transparent;
+  touch-action: manipulation;
+  cursor: pointer;
+
+  @media (max-width: $br-sm) {
+    width: 100px;
+    height: 100px;
+  }
 
   &--disabled {
     opacity: 0.5;
@@ -66,4 +85,57 @@
 .highlight {
   color: $light-accent-color;
   text-shadow: 0 0 3px $light-accent-color;
+}
+
+.controls {
+  display: none;
+
+  @media (hover: none) {
+    display: flex;
+    gap: 30px;
+  }
+}
+
+.move-control {
+  position: relative;
+  width: 75px;
+  height: 75px;
+  padding: 10px;
+  border: 2px dotted $light-color;
+  background-color: rgba($dark-color, 0.5);
+  border-radius: 50%;
+  touch-action: manipulation;
+
+  @media (max-width: $br-sm) {
+    width: 60px;
+    height: 60px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    border: 10px solid $light-color;
+    border-top: none;
+
+    @media (max-width: $br-sm) {
+      width: 30px;
+      height: 30px;
+      border-width: 8px;
+    }
+  }
+}
+
+.move-left-control::before {
+  border-right: none;
+  transform: translate(-30%, -50%) rotate(45deg);
+}
+
+.move-right-control::before {
+  border-left: none;
+  transform: translate(-70%, -50%) rotate(-45deg);
 }

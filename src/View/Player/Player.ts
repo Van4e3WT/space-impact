@@ -14,6 +14,7 @@ const SHOT_OFFSET_X = 0.4;
 const SPACESHIP_SCALE = 0.273;
 const INVULNERABILITY_TIME_MS = 3000;
 const FLICKERING_FREQUENCY_MS = 150;
+const PLAYER_SHOOT_CONTROL = '#player-shoot-control';
 
 export default class Player extends ResoursesController {
   private scene: THREE.Scene;
@@ -33,6 +34,8 @@ export default class Player extends ResoursesController {
   private lastShotTime = 0;
 
   private isPlayerInvulnerable = false;
+
+  public playerShootControl: HTMLElement | null = null;
 
   public shots: Array<ExtensionalObject> = [];
 
@@ -130,6 +133,8 @@ export default class Player extends ResoursesController {
   };
 
   private init = (manager?: THREE.LoadingManager) => {
+    this.playerShootControl = document.querySelector(PLAYER_SHOOT_CONTROL);
+
     const gltfLoader = new GLTFLoader(manager);
     gltfLoader.load(`${process.env.PUBLIC_URL}/models/spaceship.glb`, (model) => {
       model.scene.scale.set(SPACESHIP_SCALE, SPACESHIP_SCALE, SPACESHIP_SCALE);

@@ -43,7 +43,7 @@ export default class Player extends ResoursesController {
     super();
     this.scene = scene;
 
-    this.shotGeometry = this.considerGeometry(createRoundedBoxGeometry(0.1, 0.05, 0.3, 0.05, 1));
+    this.shotGeometry = this.considerGeometry(createRoundedBoxGeometry(0.1, 0.05, 0.7, 0.05, 1));
     this.shotMaterial = this.considerMaterial(new THREE.MeshBasicMaterial({ color: '#FF4540' }));
     this.playerFlickeringMaterial = this.considerMaterial(new THREE.MeshBasicMaterial({
       opacity: 0,

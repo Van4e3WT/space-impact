@@ -102,10 +102,10 @@ export default class View extends ResoursesController {
     const ambientLight = new THREE.AmbientLight('#FFFFFF', 0.3);
     this.scene.add(ambientLight);
 
+    // TODO: optimize light
     const pointLight = new THREE.PointLight('#FFFFFF', 1);
     pointLight.position.set(-1, 2, 4);
     this.scene.add(pointLight);
-    // TODO: add equirectangular background
 
     this.initLines();
   };
@@ -142,18 +142,18 @@ export default class View extends ResoursesController {
     const canvas = this.renderer.domElement;
 
     this.camera = new THREE.PerspectiveCamera(
-      90,
+      70,
       canvas.clientWidth / canvas.clientHeight,
       0.1,
-      1000, // TODO: reduce to current scene limit
+      150,
     );
 
     // TODO: remove OribtControls on prod
     const controls = new OrbitControls(this.camera, canvas);
-    this.camera.position.z = -2;
-    this.camera.position.y = 2;
-    this.camera.lookAt(0, 0, 0);
-    controls.target.set(0, 0, 0);
+    this.camera.position.z = -4;
+    this.camera.position.y = 3;
+    this.camera.lookAt(0, 0, 10);
+    controls.target.set(0, 0, 10);
   };
 
   private initComposer = () => {

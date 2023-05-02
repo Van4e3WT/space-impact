@@ -22,6 +22,8 @@ const MISSED_ENEMY_COST = 100;
 const ENEMY_COST = 50;
 
 export default class View extends ResoursesController {
+  private stats: Stats | null = null;
+
   private requestId: number;
 
   private parent: HTMLElement;
@@ -40,8 +42,6 @@ export default class View extends ResoursesController {
 
   private loadingManager!: THREE.LoadingManager;
 
-  private stats: Stats;
-
   private time: number;
 
   private player!: Player;
@@ -50,7 +50,6 @@ export default class View extends ResoursesController {
     super();
     this.parent = root;
     this.time = 0;
-    this.stats = Stats();
 
     this.initLoadingManager();
     this.initRenderer();
@@ -61,7 +60,10 @@ export default class View extends ResoursesController {
     this.initNPC();
     this.initPlayer();
 
-    document.body.appendChild(this.stats.dom);
+    if (process.env.NODE_ENV === 'development') {
+      this.stats = Stats();
+      document.body.appendChild(this.stats.dom);
+    }
 
     this.requestId = requestAnimationFrame(this.render);
   }
@@ -84,7 +86,7 @@ export default class View extends ResoursesController {
 
     this.renderer.dispose();
     this.renderer.domElement.remove();
-    this.stats.dom.remove();
+    this.stats?.dom.remove();
   };
 
   private initRenderer = () => {
@@ -148,12 +150,14 @@ export default class View extends ResoursesController {
       150,
     );
 
-    // TODO: remove OribtControls on prod
-    const controls = new OrbitControls(this.camera, canvas);
+    if (process.env.NODE_ENV === 'development') {
+      const controls = new OrbitControls(this.camera, canvas);
+      controls.target.set(0, 0, 10);
+    }
+
     this.camera.position.z = -4;
     this.camera.position.y = 3;
     this.camera.lookAt(0, 0, 10);
-    controls.target.set(0, 0, 10);
   };
 
   private initComposer = () => {
@@ -258,7 +262,7 @@ export default class View extends ResoursesController {
       }
     });
 
-    this.stats.update();
+    this.stats?.update();
 
     this.composer.render();
 
